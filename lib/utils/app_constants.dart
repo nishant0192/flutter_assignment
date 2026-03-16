@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+// Global variable for testing audio call with Zego
+final String localUserID = Random().nextInt(10000).toString();
 
 class AppSpacing {
   // Horizontal spacing

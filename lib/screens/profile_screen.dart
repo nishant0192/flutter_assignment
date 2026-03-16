@@ -3,6 +3,7 @@ import '../widgets/profile/action_buttons.dart';
 import '../widgets/profile/profile_card.dart';
 import '../widgets/profile/profile_list_item.dart';
 import '../widgets/profile/profile_section.dart';
+import 'audio_call_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -144,7 +145,20 @@ class ProfileScreen extends StatelessWidget {
                 const ProfileListItem(
                   icon: Icons.redeem,
                   title: 'Claim invite code',
+                  showDivider: true,
+                ),
+                ProfileListItem(
+                  icon: Icons.call_outlined,
+                  title: 'Start Audio Call',
                   showDivider: false,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AudioCallScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

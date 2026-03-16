@@ -6,6 +6,7 @@ class ProfileListItem extends StatelessWidget {
   final Widget? trailing;
   final bool showDivider;
   final Color iconColor;
+  final VoidCallback? onTap;
 
   const ProfileListItem({
     super.key,
@@ -14,12 +15,13 @@ class ProfileListItem extends StatelessWidget {
     this.trailing,
     this.showDivider = true,
     this.iconColor = Colors.black54,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap ?? () {},
       child: Column(
         children: [
           Padding(

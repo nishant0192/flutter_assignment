@@ -72,9 +72,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    '| 204/A-39, Sector 3, Shan...',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  const Flexible(
+                    child: Text(
+                      '| 204/A-39, Sector 3, Shan...',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   const Icon(
                     Icons.keyboard_arrow_down,

@@ -29,19 +29,25 @@ class TwoActionButtons extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Zomato Money', style: TextStyle(fontSize: 14)),
-                    Text(
-                      '₹0',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Zomato Money',
+                        style: TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
+                      Text(
+                        '₹0',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -70,7 +76,13 @@ class TwoActionButtons extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Text('Your coupons', style: TextStyle(fontSize: 14)),
+                const Expanded(
+                  child: Text(
+                    'Your coupons',
+                    style: TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
           ),

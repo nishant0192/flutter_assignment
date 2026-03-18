@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'screens/home_screen.dart';
-import 'utils/app_constants.dart'; // localUserID is now here
+import 'utils/app_constants.dart';
+import 'models/user_profile.dart';
+import 'models/cart_manager.dart';
 
 // Please set your AppID and AppSign here
 const int zegoAppID = ***REMOVED***;
@@ -13,8 +15,14 @@ const String zegoAppSign =
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load cached user profile and cart data
+  await Future.wait([
+    loadUserProfile(),
+    cartManager.loadFromCache(),
+  ]);
 
   // 1. Set the navigator key for Zego Invitation Service
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);

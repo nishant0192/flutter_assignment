@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/app_data.dart';
 import '../models/cart_manager.dart';
 import 'checkout_screen.dart';
@@ -68,42 +69,42 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 pinned: true,
                 elevation: 0,
                 backgroundColor: Colors.white,
-                leading: _showExpandedSearch
-                    ? IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 20),
-                        onPressed: () {
-                          if (_isSearching && !_isScrolled) {
-                            setState(() {
-                              _isSearching = false;
-                              _searchQuery = '';
-                              _searchController.clear();
-                            });
-                            _searchFocusNode.unfocus();
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        },
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ),
-                      ),
+                surfaceTintColor: Colors.transparent, // Fix for Material 3 tinting the background
+                bottom: const PreferredSize(
+                  preferredSize: Size.fromHeight(12.0),
+                  child: SizedBox(height: 12.0),
+                ),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
+                      onPressed: () {
+                        if (_isSearching && !_isScrolled) {
+                          setState(() {
+                            _isSearching = false;
+                            _searchQuery = '';
+                            _searchController.clear();
+                          });
+                          _searchFocusNode.unfocus();
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ),
+                ),
                 title: _showExpandedSearch
                     ? Container(
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
+                          color: Colors.white, // Pure white background
+                          borderRadius: BorderRadius.circular(30), // Pill shape exact to screenshot
+                          border: Border.all(color: Colors.grey.shade300), // Grey border
                         ),
                         child: TextField(
                           controller: _searchController,
@@ -137,7 +138,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   )
                                 : null,
                             border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
                           ),
                         ),
                       )
@@ -188,9 +189,17 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       ),
                     ),
                   ] else ...[
-                    IconButton(
-                      icon: const Icon(Icons.more_vert, color: Colors.black),
-                      onPressed: () {},
+                    Container(
+                      margin: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.more_vert, color: Colors.black, size: 20),
+                        onPressed: () {},
+                      ),
                     ),
                   ],
                 ],
@@ -605,50 +614,162 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   }
 
   Widget _buildOfferRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                const Icon(Icons.local_offer, color: Colors.blue, size: 18),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    widget.restaurant.offer,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+    return InkWell(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        _showOffersBottomSheet(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  const Icon(Icons.local_offer, color: Colors.blue, size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      widget.restaurant.offer,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            Row(
+              children: [
+                Text(
+                  '${widget.restaurant.offers.length} offers',
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                const Icon(Icons.keyboard_arrow_down, color: Colors.grey, size: 16),
               ],
             ),
-          ),
-          const SizedBox(width: 16),
-          Row(
-            children: const [
-              Text(
-                '2 offers',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Icon(Icons.keyboard_arrow_down, color: Colors.grey, size: 16),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildFiltersRow() {
+  void _showOffersBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent, // Let Container define the top radius
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.8,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 50),
+                decoration: const BoxDecoration(
+                  color: Colors.white, // White background
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Header
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                      ),
+                      child: Text(
+                        'Offers at ${widget.restaurant.name}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1E1E2C), // Dark blueish grey
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
+                    // Scrollable content
+                    Expanded(
+                      child: Container(
+                        color: const Color(0xFFF7F7FA), // Light grey background for the list
+                        child: ListView(
+                          padding: const EdgeInsets.all(16),
+                          children: [
+                            _buildOffersSection('Restaurant coupons', widget.restaurant.offers.where((o) => o.type == 'coupon').toList()),
+                            const SizedBox(height: 24),
+                            _buildOffersSection('Gold exclusive offer', widget.restaurant.offers.where((o) => o.type == 'gold').toList()),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF333333).withOpacity(0.9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.close, color: Colors.white, size: 20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildOffersSection(String title, List<RestaurantOffer> offers) {
+    if (offers.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF1E1E2C),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Column(
+          children: offers.map((offer) {
+            return _OfferItemWidget(offer: offer);
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+
+
+Widget _buildFiltersRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -933,5 +1054,193 @@ class DishItemWidget extends StatelessWidget {
         ),
       );
     }
+  }
+}
+
+
+class _OfferItemWidget extends StatefulWidget {
+  final RestaurantOffer offer;
+  const _OfferItemWidget({Key? key, required this.offer}) : super(key: key);
+
+  @override
+  State<_OfferItemWidget> createState() => _OfferItemWidgetState();
+}
+
+class _OfferItemWidgetState extends State<_OfferItemWidget> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200, width: 1.5),
+      ),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Icon
+                  Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    child: Icon(
+                      widget.offer.type == 'gold' ? Icons.workspace_premium : Icons.discount,
+                      color: widget.offer.type == 'gold' ? const Color(0xFFD4AF37) : Colors.blue.shade600, // Gold or blue
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.offer.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color(0xFF1E1E2C),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        if (widget.offer.code == null) ...[
+                          Text(
+                            'No code required',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Text(
+                                widget.offer.description,
+                                style: TextStyle(
+                                  color: Colors.green.shade700,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Icon(Icons.chevron_right, color: Colors.green.shade700, size: 14),
+                            ],
+                          ),
+                        ] else ...[
+                          Text(
+                            widget.offer.description,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              widget.offer.code!,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                letterSpacing: 0.5,
+                                color: Colors.grey.shade800,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (_isExpanded) ...[
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              height: 1,
+              color: Colors.transparent, // Create a dashed line effect using a CustomPaint if needed, or a simple divider
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  final boxWidth = constraints.constrainWidth();
+                  const dashWidth = 4.0;
+                  const dashHeight = 1.0;
+                  final dashCount = (boxWidth / (2 * dashWidth)).floor();
+                  return Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(dashCount, (_) {
+                      return SizedBox(
+                        width: dashWidth,
+                        height: dashHeight,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.grey.shade300),
+                        ),
+                      );
+                    }),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  _buildTermRow('Offer will be applied automatically. No promo code required.'),
+                  const SizedBox(height: 8),
+                  _buildTermRow('Applicable only on selected items'),
+                  const SizedBox(height: 8),
+                  _buildTermRow('Offer may not be combined with other offers.'),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTermRow(String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 2),
+          child: const Icon(Icons.check_circle, color: Color(0xFF1F803A), size: 16),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

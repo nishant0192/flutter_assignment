@@ -36,12 +36,15 @@ class _HomeScreenState extends State<HomeScreen>
   FilterOptions _filterOptions = FilterOptions();
   String _searchQuery = '';
   bool _isBottomNavVisible = true;
+  bool _showRemoveCart = false;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _loadRestaurants();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadRestaurants();
+    });
   }
 
   Future<void> _loadRestaurants() async {
@@ -224,7 +227,9 @@ class _HomeScreenState extends State<HomeScreen>
                   bottom: _isBottomNavVisible
                       ? 102
                       : 36, // Lowered slightly due to shorter nav
-                  left: 16,
+                  left: _showRemoveCart
+                      ? 16.0 - (MediaQuery.of(context).size.width * 0.28)
+                      : 16.0,
                   right: _isBottomNavVisible
                       ? 16
                       : 72, // Leave space for Healthy Mode circle when bottom nav hidden
@@ -241,12 +246,8 @@ class _HomeScreenState extends State<HomeScreen>
                       ).then((_) => setState(() {}));
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 10,
-                      ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: _showRemoveCart ? Colors.red.shade50 : Colors.white,
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: [
                           BoxShadow(
@@ -256,129 +257,187 @@ class _HomeScreenState extends State<HomeScreen>
                           ),
                         ],
                       ),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20, // Reduced from 24
-                            backgroundColor: Colors.grey[200],
-                            child: ClipOval(
-                              child: Image.network(
-                                cartManager.currentRestaurant!.imageUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.network(
-                                    'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                                    fit: BoxFit.cover,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RestaurantDetailsScreen(
-                                          restaurant:
-                                              cartManager.currentRestaurant!,
+                      child: IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 10, right: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      child: CircleAvatar(
+                                        radius: 20, // Reduced from 24
+                                        backgroundColor: Colors.grey[200],
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            cartManager.currentRestaurant!.imageUrl,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Image.network(
+                                                'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
                                         ),
-                                  ),
-                                );
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    cartManager.currentRestaurant!.name,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 14,
+                                      ),
                                     ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Row(
-                                    children: const [
-                                      Text(
-                                        'View Menu',
-                                        style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RestaurantDetailsScreen(
+                                                      restaurant:
+                                                          cartManager.currentRestaurant!,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                cartManager.currentRestaurant!.name,
+                                                style: const TextStyle(
+                                                  color: Colors.black87,
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 14,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                children: const [
+                                                  Text(
+                                                    'View Menu',
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 11,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 2),
+                                                  Icon(
+                                                    Icons.arrow_right,
+                                                    color: Color(0xFF1F803A),
+                                                    size: 14,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      SizedBox(width: 2),
-                                      Icon(
-                                        Icons.arrow_right,
-                                        color: Color(0xFF1F803A),
-                                        size: 14,
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        margin: const EdgeInsets.only(right: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF1F803A),
+                                          borderRadius: BorderRadius.circular(100),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            const Text(
+                                              'View Cart',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF1F803A),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'View Cart',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                  ),
+                                    ),
+                                    Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _showRemoveCart = !_showRemoveCart;
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.black54,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    if (!_showRemoveCart) const SizedBox(width: 2),
+                                  ],
                                 ),
-                                Text(
-                                  '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () {
-                              cartManager.clear();
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.black54,
-                                size: 16,
                               ),
                             ),
-                          ),
-                        ],
+                            AnimatedSize(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                              child: _showRemoveCart
+                                  ? GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        cartManager.clear();
+                                        setState(() {
+                                          _showRemoveCart = false;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width * 0.22,
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
+                                        child: const Text(
+                                          'Remove',
+                                          style: TextStyle(
+                                            color: Color(0xFF1F803A),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(width: 0),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -56,8 +56,7 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void _selectAddress(AddressModel address) {
-    currentAddressNotifier.value = address;
-    Navigator.pop(context);
+    Navigator.pop(context, address);
   }
 
   @override

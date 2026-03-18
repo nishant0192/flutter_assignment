@@ -31,6 +31,28 @@ class Dish {
       isCustomisable: json['isCustomisable'] as bool? ?? true,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'description': description,
+      'imageUrl': imageUrl,
+      'isVeg': isVeg,
+      'isBestseller': isBestseller,
+      'isCustomisable': isCustomisable,
+    };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Dish && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 class Restaurant {
@@ -39,6 +61,7 @@ class Restaurant {
   final double rating;
   final String time;
   final String offer;
+  final List<RestaurantOffer> offers;
   final bool isPromoted;
   final bool isVeg;
   final List<Dish> dishes; // new field
@@ -50,6 +73,7 @@ class Restaurant {
     required this.rating,
     required this.time,
     required this.offer,
+    this.offers = const [],
     this.isPromoted = false,
     this.isVeg = false,
     this.dishes = const [],
@@ -63,6 +87,9 @@ class Restaurant {
       rating: (json['rating'] as num).toDouble(),
       time: json['time'] as String,
       offer: json['offer'] as String,
+      offers: json['offers'] != null
+          ? (json['offers'] as List).map((o) => RestaurantOffer.fromJson(o)).toList()
+          : [],
       isPromoted: json['isPromoted'] as bool? ?? false,
       isVeg: json['isVeg'] as bool? ?? false,
       dishes: json['dishes'] != null
@@ -80,6 +107,30 @@ class Restaurant {
           : (json['imageUrl'] != null ? [json['imageUrl'] as String] : []),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'imageUrl': imageUrl,
+      'rating': rating,
+      'time': time,
+      'offer': offer,
+      'offers': offers.map((o) => o.toJson()).toList(),
+      'isPromoted': isPromoted,
+      'isVeg': isVeg,
+      'dishes': dishes.map((d) => d.toJson()).toList(),
+      'imageUrls': imageUrls,
+    };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Restaurant && other.name == name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 class Category {
@@ -88,4 +139,36 @@ class Category {
   final String? promoUrl;
 
   const Category({required this.name, required this.imageUrl, this.promoUrl});
+}
+
+class RestaurantOffer {
+  final String type; // 'coupon' or 'gold'
+  final String title;
+  final String description;
+  final String? code;
+
+  const RestaurantOffer({
+    required this.type,
+    required this.title,
+    required this.description,
+    this.code,
+  });
+
+  factory RestaurantOffer.fromJson(Map<String, dynamic> json) {
+    return RestaurantOffer(
+      type: json['type'] as String? ?? 'coupon',
+      title: json['title'] as String,
+      description: json['description'] as String,
+      code: json['code'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'title': title,
+      'description': description,
+      if (code != null) 'code': code,
+    };
+  }
 }

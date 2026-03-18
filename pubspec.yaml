@@ -23,6 +23,7 @@ dependencies:
   lottie: ^3.3.2
   permission_handler: ^12.0.1
   scroll_to_index: ^3.0.1
+  shared_preferences: ^2.5.4
   shimmer: ^3.0.0
   speech_to_text: ^7.3.0
   zego_uikit_prebuilt_call: ^4.22.3

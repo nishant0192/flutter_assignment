@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/address_model.dart';
 import 'add_edit_address_screen.dart';
+import 'location_screen.dart';
 
 class AddressScreen extends StatelessWidget {
   const AddressScreen({super.key});
@@ -40,8 +41,19 @@ class AddressScreen extends StatelessWidget {
                   border: Border.all(color: Colors.grey.shade300),
                 ),
                 child: TextField(
-                  onTapOutside: (event) =>
-                      FocusManager.instance.primaryFocus?.unfocus(),
+                  readOnly: true,
+                  onTap: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    final AddressModel? selected = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LocationScreen()),
+                    );
+                    if (selected != null) {
+                      currentAddressNotifier.value = selected;
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                    }
+                  },
                   decoration: InputDecoration(
                     hintText: 'Search for area, street name...',
                     hintStyle: TextStyle(

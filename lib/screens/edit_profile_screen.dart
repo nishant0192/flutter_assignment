@@ -65,7 +65,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _saveProfile() {
-    currentUserNotifier.value = currentUserNotifier.value.copyWith(
+    final newProfile = currentUserNotifier.value.copyWith(
       name: _nameController.text.trim(),
       email: _emailController.text.trim(),
       mobile: _mobileController.text.trim(),
@@ -73,6 +73,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       anniversary: _anniversaryController.text.trim(),
       gender: _selectedGender,
     );
+    currentUserNotifier.value = newProfile;
+    saveUserProfile(newProfile); // Persist changes to cache
     Navigator.pop(context); // Go back after saving
   }
 

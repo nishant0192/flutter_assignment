@@ -9,7 +9,11 @@
       "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Indian Sweets", "Mithai", "Desserts"],
+    "cuisine": [
+      "Indian Sweets",
+      "Mithai",
+      "Desserts"
+    ],
     "rating": 4.3,
     "totalRatings": 2847,
     "time": "40-45 mins",
@@ -24,7 +28,11 @@
     "address": "Shop 4, Chandni Chowk Market, Old Delhi, Delhi - 110006",
     "phone": "+91-98765-43210",
     "openingHours": "8:00 AM – 10:00 PM",
-    "tags": ["Bestseller", "Festive Specials", "Trusted Since 1965"],
+    "tags": [
+      "Bestseller",
+      "Festive Specials",
+      "Trusted Since 1965"
+    ],
     "description": "Madhuram Sweets has been crafting authentic Indian mithai for over 58 years. Using only desi ghee and premium dry fruits, every bite is a celebration.",
     "categories": [
       {
@@ -43,10 +51,20 @@
             "isCustomisable": true,
             "portionSize": "6 pieces (500g)",
             "calories": 420,
-            "allergens": ["Nuts", "Dairy", "Gluten"],
+            "allergens": [
+              "Nuts",
+              "Dairy",
+              "Gluten"
+            ],
             "customisations": [
-              { "name": "Add Extra Dry Fruits", "price": 50 },
-              { "name": "Sugar-Free Version", "price": 20 }
+              {
+                "name": "Add Extra Dry Fruits",
+                "price": 50
+              },
+              {
+                "name": "Sugar-Free Version",
+                "price": 20
+              }
             ]
           },
           {
@@ -61,7 +79,10 @@
             "isCustomisable": false,
             "portionSize": "500g (approx 12 pieces)",
             "calories": 380,
-            "allergens": ["Dairy", "Gluten"]
+            "allergens": [
+              "Dairy",
+              "Gluten"
+            ]
           },
           {
             "id": "dish_003",
@@ -75,7 +96,10 @@
             "isCustomisable": false,
             "portionSize": "6 pieces",
             "calories": 310,
-            "allergens": ["Dairy", "Nuts"]
+            "allergens": [
+              "Dairy",
+              "Nuts"
+            ]
           }
         ]
       },
@@ -95,7 +119,10 @@
             "isCustomisable": false,
             "portionSize": "250g",
             "calories": 340,
-            "allergens": ["Nuts", "Dairy"]
+            "allergens": [
+              "Nuts",
+              "Dairy"
+            ]
           },
           {
             "id": "dish_005",
@@ -109,13 +136,33 @@
             "isCustomisable": false,
             "portionSize": "6 pieces",
             "calories": 220,
-            "allergens": ["Dairy"]
+            "allergens": [
+              "Dairy"
+            ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Flat ₹75 OFF above ₹599",
+        "description": "Use code SWEET75",
+        "code": "SWEET75"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_002",
     "name": "Chinese Wok",
@@ -126,7 +173,11 @@
       "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Chinese", "Indo-Chinese", "Asian"],
+    "cuisine": [
+      "Chinese",
+      "Indo-Chinese",
+      "Asian"
+    ],
     "rating": 3.9,
     "totalRatings": 1523,
     "time": "45-50 mins",
@@ -141,7 +192,11 @@
     "address": "B-12, Sector 18, Noida, Uttar Pradesh - 201301",
     "phone": "+91-98001-22334",
     "openingHours": "11:00 AM – 11:00 PM",
-    "tags": ["Fast Delivery", "Indo-Chinese", "Budget Friendly"],
+    "tags": [
+      "Fast Delivery",
+      "Indo-Chinese",
+      "Budget Friendly"
+    ],
     "description": "Authentic Indo-Chinese flavours straight from the wok to your door. Bold sauces, fresh veggies, and that unmistakable smoky wok char.",
     "categories": [
       {
@@ -160,11 +215,23 @@
             "isCustomisable": true,
             "portionSize": "Regular (350g)",
             "calories": 480,
-            "allergens": ["Gluten", "Soy"],
+            "allergens": [
+              "Gluten",
+              "Soy"
+            ],
             "customisations": [
-              { "name": "Extra Spicy", "price": 0 },
-              { "name": "Add Egg", "price": 30 },
-              { "name": "Upgrade to Large", "price": 50 }
+              {
+                "name": "Extra Spicy",
+                "price": 0
+              },
+              {
+                "name": "Add Egg",
+                "price": 30
+              },
+              {
+                "name": "Upgrade to Large",
+                "price": 50
+              }
             ]
           },
           {
@@ -179,10 +246,19 @@
             "isCustomisable": true,
             "portionSize": "Regular (380g)",
             "calories": 520,
-            "allergens": ["Soy", "Gluten"],
+            "allergens": [
+              "Soy",
+              "Gluten"
+            ],
             "customisations": [
-              { "name": "Add Egg", "price": 30 },
-              { "name": "Add Paneer", "price": 60 }
+              {
+                "name": "Add Egg",
+                "price": 30
+              },
+              {
+                "name": "Add Paneer",
+                "price": 60
+              }
             ]
           }
         ]
@@ -217,17 +293,44 @@
             "isCustomisable": true,
             "portionSize": "8 pieces + gravy",
             "calories": 360,
-            "allergens": ["Gluten", "Soy"],
+            "allergens": [
+              "Gluten",
+              "Soy"
+            ],
             "customisations": [
-              { "name": "Dry", "price": 0 },
-              { "name": "With Gravy", "price": 0 }
+              {
+                "name": "Dry",
+                "price": 0
+              },
+              {
+                "name": "With Gravy",
+                "price": 0
+              }
             ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Items starting at ₹149",
+        "description": "Use code WOK149",
+        "code": "WOK149"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_003",
     "name": "McDonald's",
@@ -238,7 +341,11 @@
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Burgers", "Fast Food", "American"],
+    "cuisine": [
+      "Burgers",
+      "Fast Food",
+      "American"
+    ],
     "rating": 3.9,
     "totalRatings": 8921,
     "time": "30-40 mins",
@@ -253,7 +360,11 @@
     "address": "Ground Floor, Select CityWalk Mall, Saket, New Delhi - 110017",
     "phone": "+91-1800-102-0000",
     "openingHours": "10:00 AM – 12:00 AM",
-    "tags": ["Free Delivery", "Family Meals", "Kids Favourite"],
+    "tags": [
+      "Free Delivery",
+      "Family Meals",
+      "Kids Favourite"
+    ],
     "description": "India's favourite fast food chain, serving burgers, wraps, fries and more since 1996. Now with McDelivery right to your door.",
     "categories": [
       {
@@ -272,7 +383,11 @@
             "isCustomisable": false,
             "portionSize": "1 burger",
             "calories": 336,
-            "allergens": ["Gluten", "Dairy", "Soy"]
+            "allergens": [
+              "Gluten",
+              "Dairy",
+              "Soy"
+            ]
           },
           {
             "id": "dish_011",
@@ -286,7 +401,10 @@
             "isCustomisable": false,
             "portionSize": "1 burger",
             "calories": 478,
-            "allergens": ["Gluten", "Dairy"]
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ]
           }
         ]
       },
@@ -306,18 +424,64 @@
             "isCustomisable": true,
             "portionSize": "Combo for 1",
             "calories": 750,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Coke", "price": 0 },
-              { "name": "Sprite", "price": 0 },
-              { "name": "Fanta", "price": 0 }
+              {
+                "name": "Coke",
+                "price": 0
+              },
+              {
+                "name": "Sprite",
+                "price": 0
+              },
+              {
+                "name": "Fanta",
+                "price": 0
+              }
             ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Items up to 50% off",
+        "description": "See items on offer >"
+      },
+      {
+        "type": "coupon",
+        "title": "Items starting at ₹119",
+        "description": "See items on offer >"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹75 OFF above ₹299",
+        "description": "Use code GET75",
+        "code": "GET75"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹125 OFF above ₹349",
+        "description": "Use code TRYNEW125",
+        "code": "TRYNEW125"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹200 OFF above ₹549",
+        "description": "Use code TRYNEW200",
+        "code": "TRYNEW200"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹99",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_004",
     "name": "Great Indian Peninsular",
@@ -328,7 +492,11 @@
       "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["South Indian", "Kerala", "Tamil"],
+    "cuisine": [
+      "South Indian",
+      "Kerala",
+      "Tamil"
+    ],
     "rating": 4.1,
     "totalRatings": 3204,
     "time": "40-45 mins",
@@ -343,7 +511,11 @@
     "address": "22, Anna Salai, T. Nagar, Chennai, Tamil Nadu - 600017",
     "phone": "+91-98400-11223",
     "openingHours": "7:00 AM – 11:00 PM",
-    "tags": ["Authentic South Indian", "Breakfast All Day", "Healthy"],
+    "tags": [
+      "Authentic South Indian",
+      "Breakfast All Day",
+      "Healthy"
+    ],
     "description": "Bringing the rich culinary heritage of peninsular India to your table — from crispy Chettinad dosas to Kerala-style stews and Andhra curries.",
     "categories": [
       {
@@ -376,7 +548,9 @@
             "isCustomisable": false,
             "portionSize": "1 piece + chutneys",
             "calories": 260,
-            "allergens": ["Gluten"]
+            "allergens": [
+              "Gluten"
+            ]
           }
         ]
       },
@@ -396,13 +570,33 @@
             "isCustomisable": false,
             "portionSize": "Full meal for 1",
             "calories": 820,
-            "allergens": ["Dairy"]
+            "allergens": [
+              "Dairy"
+            ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "₹100 OFF above ₹299",
+        "description": "Use code SOUTH100",
+        "code": "SOUTH100"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_005",
     "name": "Pizza Hut",
@@ -413,7 +607,11 @@
       "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Pizza", "Italian", "Pasta"],
+    "cuisine": [
+      "Pizza",
+      "Italian",
+      "Pasta"
+    ],
     "rating": 4.1,
     "totalRatings": 12450,
     "time": "30-35 mins",
@@ -428,7 +626,11 @@
     "address": "Shop 201-202, Phoenix Palassio, Lucknow, Uttar Pradesh - 226010",
     "phone": "+91-1860-200-3030",
     "openingHours": "10:00 AM – 11:30 PM",
-    "tags": ["Free Delivery", "Pan Pizzas", "Dine-In Available"],
+    "tags": [
+      "Free Delivery",
+      "Pan Pizzas",
+      "Dine-In Available"
+    ],
     "description": "The iconic red rooftop, world-famous stuffed crust and pan pizzas. A global favourite reimagined for India.",
     "categories": [
       {
@@ -447,11 +649,23 @@
             "isCustomisable": true,
             "portionSize": "Medium (8 slices)",
             "calories": 620,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Thin & Crispy", "price": 0 },
-              { "name": "Pan Pizza", "price": 40 },
-              { "name": "Stuffed Crust", "price": 60 }
+              {
+                "name": "Thin & Crispy",
+                "price": 0
+              },
+              {
+                "name": "Pan Pizza",
+                "price": 40
+              },
+              {
+                "name": "Stuffed Crust",
+                "price": 60
+              }
             ]
           },
           {
@@ -466,10 +680,19 @@
             "isCustomisable": true,
             "portionSize": "Medium (8 slices)",
             "calories": 710,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Thin & Crispy", "price": 0 },
-              { "name": "Pan Pizza", "price": 40 }
+              {
+                "name": "Thin & Crispy",
+                "price": 0
+              },
+              {
+                "name": "Pan Pizza",
+                "price": 40
+              }
             ]
           }
         ]
@@ -490,17 +713,44 @@
             "isCustomisable": true,
             "portionSize": "Medium (8 slices)",
             "calories": 760,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Thin & Crispy", "price": 0 },
-              { "name": "Stuffed Crust", "price": 60 }
+              {
+                "name": "Thin & Crispy",
+                "price": 0
+              },
+              {
+                "name": "Stuffed Crust",
+                "price": 60
+              }
             ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Flat ₹125 OFF above ₹499",
+        "description": "Use code HUT125",
+        "code": "HUT125"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_006",
     "name": "Burger King",
@@ -511,7 +761,11 @@
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Burgers", "Fast Food", "Wraps"],
+    "cuisine": [
+      "Burgers",
+      "Fast Food",
+      "Wraps"
+    ],
     "rating": 4.2,
     "totalRatings": 6738,
     "time": "20-25 mins",
@@ -526,7 +780,11 @@
     "address": "Ground Floor, Nexus Shantiniketan Mall, Whitefield, Bengaluru - 560066",
     "phone": "+91-99000-71134",
     "openingHours": "10:00 AM – 12:00 AM",
-    "tags": ["Free Delivery", "Flame-Grilled", "Late Night"],
+    "tags": [
+      "Free Delivery",
+      "Flame-Grilled",
+      "Late Night"
+    ],
     "description": "Home of the Whopper and India's favourite flame-grilled burgers. Bigger, bolder, better — always.",
     "categories": [
       {
@@ -545,7 +803,10 @@
             "isCustomisable": false,
             "portionSize": "1 burger",
             "calories": 340,
-            "allergens": ["Gluten", "Dairy"]
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ]
           },
           {
             "id": "dish_020",
@@ -559,10 +820,19 @@
             "isCustomisable": true,
             "portionSize": "1 burger",
             "calories": 510,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Extra Cheese", "price": 30 },
-              { "name": "No Onions", "price": 0 }
+              {
+                "name": "Extra Cheese",
+                "price": 30
+              },
+              {
+                "name": "No Onions",
+                "price": 0
+              }
             ]
           }
         ]
@@ -583,10 +853,19 @@
             "isCustomisable": true,
             "portionSize": "1 burger",
             "calories": 590,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Double Patty", "price": 80 },
-              { "name": "Extra Cheese", "price": 30 }
+              {
+                "name": "Double Patty",
+                "price": 80
+              },
+              {
+                "name": "Extra Cheese",
+                "price": 30
+              }
             ]
           }
         ]
@@ -609,15 +888,39 @@
             "calories": 320,
             "allergens": [],
             "customisations": [
-              { "name": "Regular", "price": 0 },
-              { "name": "Large (+₹30)", "price": 30 }
+              {
+                "name": "Regular",
+                "price": 0
+              },
+              {
+                "name": "Large (+₹30)",
+                "price": 30
+              }
             ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Crispy Veg Burger @ ₹79",
+        "description": "Use code BK79",
+        "code": "BK79"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_007",
     "name": "Biryani Blues",
@@ -628,7 +931,11 @@
       "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Biryani", "Mughlai", "North Indian"],
+    "cuisine": [
+      "Biryani",
+      "Mughlai",
+      "North Indian"
+    ],
     "rating": 4.5,
     "totalRatings": 9102,
     "time": "35-45 mins",
@@ -643,7 +950,11 @@
     "address": "16, Hudson Lane, GTB Nagar, Delhi - 110009",
     "phone": "+91-95600-11221",
     "openingHours": "12:00 PM – 12:00 AM",
-    "tags": ["Top Rated", "Dum Biryani", "Free Delivery"],
+    "tags": [
+      "Top Rated",
+      "Dum Biryani",
+      "Free Delivery"
+    ],
     "description": "Slow-cooked dum biryanis crafted with aged basmati, whole spices, and generations-old recipes. Every pot sealed and opened fresh for you.",
     "categories": [
       {
@@ -662,10 +973,18 @@
             "isCustomisable": true,
             "portionSize": "Regular (serves 1)",
             "calories": 680,
-            "allergens": ["Dairy"],
+            "allergens": [
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Half kg (+₹150)", "price": 150 },
-              { "name": "Full kg (+₹280)", "price": 280 }
+              {
+                "name": "Half kg (+₹150)",
+                "price": 150
+              },
+              {
+                "name": "Full kg (+₹280)",
+                "price": 280
+              }
             ]
           },
           {
@@ -680,7 +999,9 @@
             "isCustomisable": false,
             "portionSize": "Regular (serves 1)",
             "calories": 780,
-            "allergens": ["Dairy"]
+            "allergens": [
+              "Dairy"
+            ]
           },
           {
             "id": "dish_025",
@@ -694,13 +1015,33 @@
             "isCustomisable": false,
             "portionSize": "Regular (serves 1)",
             "calories": 540,
-            "allergens": ["Dairy"]
+            "allergens": [
+              "Dairy"
+            ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Free Raita on orders above ₹399",
+        "description": "Use code BIRYANI",
+        "code": "BIRYANI"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_008",
     "name": "Starbucks",
@@ -711,7 +1052,11 @@
       "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Coffee", "Beverages", "Bakery"],
+    "cuisine": [
+      "Coffee",
+      "Beverages",
+      "Bakery"
+    ],
     "rating": 4.4,
     "totalRatings": 15234,
     "time": "20-30 mins",
@@ -726,7 +1071,11 @@
     "address": "Ground Floor, Cyber Hub, DLF Cyber City, Gurugram, Haryana - 122002",
     "phone": "+91-1860-500-4477",
     "openingHours": "7:00 AM – 11:00 PM",
-    "tags": ["Coffee Chain", "Desserts", "Work-Friendly"],
+    "tags": [
+      "Coffee Chain",
+      "Desserts",
+      "Work-Friendly"
+    ],
     "description": "Your daily ritual, delivered. From rich espresso to indulgent frappuccinos, Starbucks brings its signature experience to your doorstep.",
     "categories": [
       {
@@ -745,12 +1094,26 @@
             "isCustomisable": true,
             "portionSize": "Tall (12 oz)",
             "calories": 190,
-            "allergens": ["Dairy"],
+            "allergens": [
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Tall", "price": 0 },
-              { "name": "Grande (+₹30)", "price": 30 },
-              { "name": "Venti (+₹50)", "price": 50 },
-              { "name": "Oat Milk", "price": 60 }
+              {
+                "name": "Tall",
+                "price": 0
+              },
+              {
+                "name": "Grande (+₹30)",
+                "price": 30
+              },
+              {
+                "name": "Venti (+₹50)",
+                "price": 50
+              },
+              {
+                "name": "Oat Milk",
+                "price": 60
+              }
             ]
           },
           {
@@ -765,10 +1128,18 @@
             "isCustomisable": true,
             "portionSize": "Tall (12 oz)",
             "calories": 140,
-            "allergens": ["Dairy"],
+            "allergens": [
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Dry Cappuccino", "price": 0 },
-              { "name": "Extra Shot (+₹60)", "price": 60 }
+              {
+                "name": "Dry Cappuccino",
+                "price": 0
+              },
+              {
+                "name": "Extra Shot (+₹60)",
+                "price": 60
+              }
             ]
           }
         ]
@@ -789,17 +1160,44 @@
             "isCustomisable": true,
             "portionSize": "Grande (16 oz)",
             "calories": 470,
-            "allergens": ["Dairy", "Gluten"],
+            "allergens": [
+              "Dairy",
+              "Gluten"
+            ],
             "customisations": [
-              { "name": "No Whip", "price": 0 },
-              { "name": "Extra Whip", "price": 0 }
+              {
+                "name": "No Whip",
+                "price": 0
+              },
+              {
+                "name": "Extra Whip",
+                "price": 0
+              }
             ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Buy 2 Frappuccinos, Get 1 Free",
+        "description": "Use code SBUX3FOR2",
+        "code": "SBUX3FOR2"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_009",
     "name": "Pind Punjabi",
@@ -810,7 +1208,11 @@
       "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["North Indian", "Punjabi", "Tandoor"],
+    "cuisine": [
+      "North Indian",
+      "Punjabi",
+      "Tandoor"
+    ],
     "rating": 4.3,
     "totalRatings": 5421,
     "time": "40-50 mins",
@@ -825,7 +1227,11 @@
     "address": "45, Amritsar Road, Karol Bagh, New Delhi - 110005",
     "phone": "+91-98111-44556",
     "openingHours": "12:00 PM – 11:30 PM",
-    "tags": ["Tandoor Specials", "Butter Chicken", "Dal Makhani"],
+    "tags": [
+      "Tandoor Specials",
+      "Butter Chicken",
+      "Dal Makhani"
+    ],
     "description": "Authentic Punjabi home-style cooking — rich gravies, smoky tandoor breads, and generous portions that feel like a warm hug from the land of five rivers.",
     "categories": [
       {
@@ -844,10 +1250,19 @@
             "isCustomisable": true,
             "portionSize": "Half (250ml gravy)",
             "calories": 540,
-            "allergens": ["Dairy", "Nuts"],
+            "allergens": [
+              "Dairy",
+              "Nuts"
+            ],
             "customisations": [
-              { "name": "Half", "price": 0 },
-              { "name": "Full (+₹300)", "price": 300 }
+              {
+                "name": "Half",
+                "price": 0
+              },
+              {
+                "name": "Full (+₹300)",
+                "price": 300
+              }
             ]
           },
           {
@@ -862,7 +1277,9 @@
             "isCustomisable": false,
             "portionSize": "Half (250ml)",
             "calories": 420,
-            "allergens": ["Dairy"]
+            "allergens": [
+              "Dairy"
+            ]
           },
           {
             "id": "dish_031",
@@ -876,13 +1293,34 @@
             "isCustomisable": false,
             "portionSize": "1 piece",
             "calories": 200,
-            "allergens": ["Gluten", "Dairy"]
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ]
           }
         ]
       }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "Complimentary Lassi on orders above ₹599",
+        "description": "Use code PUNJAB599",
+        "code": "PUNJAB599"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
+      }
     ]
   },
-
   {
     "id": "rest_010",
     "name": "Rolls Republic",
@@ -892,7 +1330,11 @@
       "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
-    "cuisine": ["Rolls", "Wraps", "Street Food"],
+    "cuisine": [
+      "Rolls",
+      "Wraps",
+      "Street Food"
+    ],
     "rating": 4.0,
     "totalRatings": 3891,
     "time": "20-30 mins",
@@ -907,7 +1349,11 @@
     "address": "Food Court, Infinity Mall, Malad West, Mumbai - 400064",
     "phone": "+91-98201-87654",
     "openingHours": "11:00 AM – 11:00 PM",
-    "tags": ["Quick Bites", "Street Food", "Budget"],
+    "tags": [
+      "Quick Bites",
+      "Street Food",
+      "Budget"
+    ],
     "description": "Kolkata-style kathi rolls, wraps, and frankies made fresh on the griddle. The ultimate street food fix.",
     "categories": [
       {
@@ -926,10 +1372,19 @@
             "isCustomisable": true,
             "portionSize": "1 roll",
             "calories": 380,
-            "allergens": ["Gluten", "Dairy"],
+            "allergens": [
+              "Gluten",
+              "Dairy"
+            ],
             "customisations": [
-              { "name": "Extra Chutney", "price": 0 },
-              { "name": "Add Cheese", "price": 30 }
+              {
+                "name": "Extra Chutney",
+                "price": 0
+              },
+              {
+                "name": "Add Cheese",
+                "price": 30
+              }
             ]
           },
           {
@@ -944,9 +1399,30 @@
             "isCustomisable": false,
             "portionSize": "1 roll",
             "calories": 420,
-            "allergens": ["Gluten"]
+            "allergens": [
+              "Gluten"
+            ]
           }
         ]
+      }
+    ],
+    "offers": [
+      {
+        "type": "coupon",
+        "title": "2 Rolls for ₹199",
+        "description": "Use code ROLL2FOR199",
+        "code": "ROLL2FOR199"
+      },
+      {
+        "type": "coupon",
+        "title": "Flat ₹50 OFF above ₹199",
+        "description": "Use code WELCOME50",
+        "code": "WELCOME50"
+      },
+      {
+        "type": "gold",
+        "title": "Free delivery above ₹149",
+        "description": "for Gold members"
       }
     ]
   }

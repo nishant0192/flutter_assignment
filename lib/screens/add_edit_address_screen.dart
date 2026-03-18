@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import '../models/address_model.dart';
 import '../models/user_profile.dart';
 import 'package:uuid/uuid.dart';
+import 'location_screen.dart';
 
 class AddEditAddressScreen extends StatefulWidget {
   final AddressModel? existingAddress;
@@ -220,34 +221,50 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
             ),
           ),
         ),
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.search, color: Colors.green, size: 24),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'Search for area, street name...',
-                  style: TextStyle(
-                    color: Colors.grey.shade500,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+        title: GestureDetector(
+          onTap: () async {
+            final AddressModel? selected = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LocationScreen()),
+            );
+            if (selected != null && selected.lat != 0.0) {
+              final latLng = LatLng(selected.lat, selected.lon);
+              setState(() {
+                _currentLocation = latLng;
+              });
+              _mapController.move(latLng, 16);
+              _fetchAddressFromLatLng(latLng);
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.search, color: Colors.green, size: 24),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Search for area, street name...',
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         centerTitle: true,

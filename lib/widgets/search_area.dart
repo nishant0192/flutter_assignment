@@ -5,11 +5,14 @@ class SearchArea extends StatelessWidget {
   final ValueChanged<bool> onVegToggle;
   final ValueChanged<String>? onSearchChanged;
 
+  final VoidCallback? onTap;
+
   const SearchArea({
     super.key,
     required this.isVegOnly,
     required this.onVegToggle,
     this.onSearchChanged,
+    this.onTap,
   });
 
   @override
@@ -40,18 +43,19 @@ class SearchArea extends StatelessWidget {
                   Icon(Icons.search, color: Colors.green.shade800),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: TextField(
-                      onChanged: onSearchChanged,
-                      onTapOutside: (event) =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
-                      decoration: InputDecoration(
-                        hintText: "Restaurant name or a dish...",
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                    child: GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        height: double.infinity,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Restaurant name or a dish...",
+                          style: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        border: InputBorder.none,
                       ),
                     ),
                   ),

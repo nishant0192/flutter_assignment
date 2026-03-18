@@ -1,0 +1,103 @@
+[
+
+  {
+    "name": "All",
+    "imageUrl": "https://plus.unsplash.com/premium_photo-1700677185820-c38b28c3dd06"
+  },
+  {
+    "name": "Thepla",
+    "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Dosa",
+    "imageUrl": "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Vada Pav",
+    "imageUrl": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Sandwich",
+    "imageUrl": "https://images.unsplash.com/photo-1528735602780-2552fd46c709?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Poha",
+    "imageUrl": "https://images.unsplash.com/photo-1606491956391-70868b5d0f47?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Coffee",
+    "imageUrl": "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Misal Pav",
+    "imageUrl": "https://images.unsplash.com/photo-1628191010210-a59de33e994a?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Idli",
+    "imageUrl": "https://images.unsplash.com/photo-1630383249096-7bb22119eb38?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Tea",
+    "imageUrl": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Masala Dosa",
+    "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f39ce9b0?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Fried Rice",
+    "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f20815c4d?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "South Indian",
+    "imageUrl": "https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Vada",
+    "imageUrl": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Rolls",
+    "imageUrl": "https://images.unsplash.com/photo-1626804475297-4c40026f7435?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Pav Bhaji",
+    "imageUrl": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Burger",
+    "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Pizza",
+    "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Pasta",
+    "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Noodles",
+    "imageUrl": "https://images.unsplash.com/photo-1612929633738-8fe01f7c845f?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Biryani",
+    "imageUrl": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Samosa",
+    "imageUrl": "https://images.unsplash.com/photo-1601050690597-df0568a70950?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Paratha",
+    "imageUrl": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Momo",
+    "imageUrl": "https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    "name": "Cake",
+    "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=200&q=80"
+  }
+]

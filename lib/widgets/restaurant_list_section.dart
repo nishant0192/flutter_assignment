@@ -68,7 +68,7 @@ class RestaurantListSection extends StatelessWidget {
         children: [
           if (title.isNotEmpty) ...[
             Padding(
-              padding: const EdgeInsets.only(top: 0, bottom: 0),
+              padding: const EdgeInsets.only(top: 0, bottom: 5),
               child: Text(
                 '${restaurants.length} RESTAURANTS DELIVERING TO YOU',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(

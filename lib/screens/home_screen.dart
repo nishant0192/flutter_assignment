@@ -11,6 +11,7 @@ import '../widgets/restaurant_list_section.dart';
 import '../widgets/restaurant_carousel_section.dart';
 import '../widgets/explore_more_section.dart';
 import '../widgets/promo_banner.dart';
+import 'search_screen.dart';
 import '../models/app_data.dart';
 import '../models/filter_options.dart';
 import '../models/cart_manager.dart';
@@ -351,6 +352,14 @@ class _HomeScreenState extends State<HomeScreen>
                     _searchQuery = val;
                   });
                 },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
                 onVegToggle: (val) {
                   setState(() {
                     _filterOptions = _filterOptions.copyWith(isPureVeg: val);
@@ -364,15 +373,13 @@ class _HomeScreenState extends State<HomeScreen>
                 topPadding: 100 + MediaQuery.of(context).padding.top,
               ),
             ),
-            categoriesAndFilters: Column(
+            categoriesAndFilters: const Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: Responsive.getResponsivePadding(context),
-                  child: const CategoryList(),
-                ),
-                const SizedBox(height: AppSpacing.md),
+                SizedBox(height: AppSpacing.sm), // Added top margin
+                CategoryList(),
+                // SizedBox(height: AppSpacing.xs), // Reduced bottom margin
               ],
             ),
           ),
@@ -562,7 +569,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   late final double topBarHeight;
   final double searchHeight = 85.0;
   final double promoHeight = 280.0; // Taller for full screen behind
-  final double bottomHeight = 150.0;
+  final double bottomHeight = 116.0;
 
   _StickyHeaderDelegate({
     required this.topBar,

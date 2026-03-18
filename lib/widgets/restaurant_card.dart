@@ -52,8 +52,18 @@ class RestaurantCard extends StatelessWidget {
                         const Center(child: CircularProgressIndicator()),
                     errorWidget: (context, url, error) => CachedNetworkImage(
                       imageUrl:
-                          'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.grey.shade200,
+                        child: Center(
+                          child: Icon(
+                            Icons.restaurant,
+                            size: 48,
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -87,6 +97,7 @@ class RestaurantCard extends StatelessWidget {
                         fontSize: 8,
                       ),
                       maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

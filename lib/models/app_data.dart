@@ -67,7 +67,14 @@ class Restaurant {
       isVeg: json['isVeg'] as bool? ?? false,
       dishes: json['dishes'] != null
           ? (json['dishes'] as List).map((d) => Dish.fromJson(d)).toList()
-          : [],
+          : (json['categories'] != null
+                ? (json['categories'] as List)
+                      .expand(
+                        (c) =>
+                            (c['dishes'] as List).map((d) => Dish.fromJson(d)),
+                      )
+                      .toList()
+                : []),
       imageUrls: json['imageUrls'] != null
           ? List<String>.from(json['imageUrls'])
           : (json['imageUrl'] != null ? [json['imageUrl'] as String] : []),

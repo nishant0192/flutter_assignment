@@ -18,6 +18,7 @@ import '../models/cart_manager.dart';
 import '../utils/responsive.dart';
 import '../utils/app_constants.dart';
 import 'checkout_screen.dart';
+import 'restaurant_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -122,164 +123,255 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
 
-              if (!hasCartItems) ...[
-                // Custom Bottom Navigation Layer - White Pill
+              // Custom Bottom Navigation Layer - White Pill
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                bottom: _isBottomNavVisible
+                    ? 36
+                    : -100, // Slides down out of screen
+                left: 16,
+                right: 112 + 12, // 112 green pill + 12 gap
+                child: AnimatedOpacity(
+                  opacity: _isBottomNavVisible ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 300),
+                  child: AppTabBar(
+                    controller: _tabController,
+                    tabs: const [
+                      Tab(icon: Icon(Icons.home_outlined), text: 'Home'),
+                      Tab(
+                        icon: Icon(Icons.local_offer_outlined),
+                        text: 'Under ₹250',
+                      ),
+                      Tab(icon: Icon(Icons.restaurant_menu), text: 'Dining'),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Custom Bottom Navigation Layer - Healthy Mode Pill
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                bottom: 36, // Always stays at bottom: 36
+                right: 0, // Attaches to right edge always
+                child: GestureDetector(
+                  onTap: _showHealthyModeDialog,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: 56, // Matching apptabbar height
+                    width: _isBottomNavVisible
+                        ? 100.0
+                        : 56.0, // Shrinks to a circle when scrolling down
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF385E3D), // Healthy dark green
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(28),
+                        bottomLeft: Radius.circular(28),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons
+                                .volunteer_activism, // Heart being held, UI visual match
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                          if (_isBottomNavVisible) ...[
+                            const SizedBox(height: 4),
+                            const Text(
+                              'Healthy Mode',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 9,
+                                letterSpacing:
+                                    -0.2, // Tighter letter spacing to fit beautifully
+                                height: 1.1,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              if (hasCartItems && cartManager.currentRestaurant != null)
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOut,
                   bottom: _isBottomNavVisible
-                      ? 36
-                      : -100, // Slides down out of screen
+                      ? 102
+                      : 36, // Lowered slightly due to shorter nav
                   left: 16,
-                  right: 112 + 12, // 112 green pill + 12 gap
-                  child: AnimatedOpacity(
-                    opacity: _isBottomNavVisible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: AppTabBar(
-                      controller: _tabController,
-                      tabs: const [
-                        Tab(icon: Icon(Icons.home_outlined), text: 'Home'),
-                        Tab(
-                          icon: Icon(Icons.local_offer_outlined),
-                          text: 'Under ₹250',
-                        ),
-                        Tab(icon: Icon(Icons.restaurant_menu), text: 'Dining'),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Custom Bottom Navigation Layer - Healthy Mode Pill
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut,
-                  bottom: 36, // Consistent with White Pill
-                  right: 0, // Attaches to right edge always
-                  child: GestureDetector(
-                    onTap: _showHealthyModeDialog,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      height: 64, // Matching apptabbar height
-                      width: _isBottomNavVisible
-                          ? 115.0
-                          : 64.0, // Fixed width for consistent alignment
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF385E3D), // Healthy dark green
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(32),
-                          bottomLeft: Radius.circular(32),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons
-                                  .volunteer_activism, // Heart being held, UI visual match
-                              color: Colors.white,
-                              size: 22,
-                            ),
-                            if (_isBottomNavVisible) ...[
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Healthy Mode',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11,
-                                  letterSpacing:
-                                      -0.2, // Tighter letter spacing to fit beautifully
-                                  height: 1.1,
-                                ),
-                                maxLines: 1,
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-
-              if (hasCartItems)
-                Positioned(
-                  bottom: 36,
-                  left: 16,
-                  right: 16,
+                  right: _isBottomNavVisible
+                      ? 16
+                      : 72, // Leave space for Healthy Mode circle when bottom nav hidden
                   child: GestureDetector(
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
-                      if (cartManager.currentRestaurant != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(
-                              restaurant: cartManager.currentRestaurant!,
-                            ),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckoutScreen(
+                            restaurant: cartManager.currentRestaurant!,
                           ),
-                        ).then((_) => setState(() {}));
-                      }
+                        ),
+                      ).then((_) => setState(() {}));
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 16,
+                        vertical: 10,
+                        horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1F803A),
-                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
+                            color: Colors.black.withOpacity(0.12),
+                            blurRadius: 16,
+                            offset: const Offset(0, 8),
                           ),
                         ],
                       ),
                       child: Row(
                         children: [
-                          _buildCartSmallImages(),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''} added',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                          CircleAvatar(
+                            radius: 20, // Reduced from 24
+                            backgroundColor: Colors.grey[200],
+                            child: ClipOval(
+                              child: Image.network(
+                                cartManager.currentRestaurant!.imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.network(
+                                    'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                             ),
                           ),
-                          Row(
-                            children: const [
-                              Text(
-                                'View cart',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RestaurantDetailsScreen(
+                                          restaurant:
+                                              cartManager.currentRestaurant!,
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    cartManager.currentRestaurant!.name,
+                                    style: const TextStyle(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Row(
+                                    children: const [
+                                      Text(
+                                        'View Menu',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(width: 2),
+                                      Icon(
+                                        Icons.arrow_right,
+                                        color: Color(0xFF1F803A),
+                                        size: 14,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1F803A),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'View Cart',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
                                 ),
+                                Text(
+                                  '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''}',
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () {
+                              cartManager.clear();
+                              setState(() {});
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                shape: BoxShape.circle,
                               ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.white,
-                                size: 20,
+                              child: const Icon(
+                                Icons.close,
+                                color: Colors.black54,
+                                size: 16,
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
@@ -293,44 +385,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildCartSmallImages() {
-    final uniqueDishes = cartManager.items.keys.toList();
-    final displayCount = uniqueDishes.length > 3 ? 3 : uniqueDishes.length;
-
-    return SizedBox(
-      height: 36,
-      width: 36.0 + (displayCount - 1) * 20.0,
-      child: Stack(
-        children: List.generate(displayCount, (index) {
-          final dish = uniqueDishes[index];
-          return Positioned(
-            left: index * 20.0,
-            child: Container(
-              height: 36,
-              width: 36,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF1F803A), width: 2),
-                color: Colors.white,
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  dish.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.network(
-                      'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-              ),
-            ),
-          );
-        }).reversed.toList(),
-      ),
-    );
-  }
+  // Remove _buildCartSmallImages since it's no longer used
 
   Widget _buildHomeTab() {
     // Apply filters

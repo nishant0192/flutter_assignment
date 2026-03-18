@@ -1,137 +1,953 @@
 [
   {
+    "id": "rest_001",
     "name": "Madhuram Sweets",
-    "imageUrl": "https://plus.unsplash.com/premium_photo-1698500035173-fdea60f9294e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "madhuram-sweets",
+    "imageUrl": "https://plus.unsplash.com/premium_photo-1698500035173-fdea60f9294e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://plus.unsplash.com/premium_photo-1698500035173-fdea60f9294e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://plus.unsplash.com/premium_photo-1698500035173-fdea60f9294e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["Indian Sweets", "Mithai", "Desserts"],
     "rating": 4.3,
+    "totalRatings": 2847,
     "time": "40-45 mins",
+    "deliveryFee": 30,
+    "minOrder": 200,
     "offer": "Flat ₹75 OFF above ₹599",
+    "offerCode": "SWEET75",
     "isPromoted": true,
     "isVeg": true,
-    "dishes": [
+    "isPureVeg": true,
+    "isOpen": true,
+    "address": "Shop 4, Chandni Chowk Market, Old Delhi, Delhi - 110006",
+    "phone": "+91-98765-43210",
+    "openingHours": "8:00 AM – 10:00 PM",
+    "tags": ["Bestseller", "Festive Specials", "Trusted Since 1965"],
+    "description": "Madhuram Sweets has been crafting authentic Indian mithai for over 58 years. Using only desi ghee and premium dry fruits, every bite is a celebration.",
+    "categories": [
       {
-        "id": "1",
-        "name": "Dry Fruit Mawa Gujiya",
-        "price": 300,
-        "description": "Experience the joy of holi with our special desi ghee dry fruit mawa gujiya. A delightful fusion...",
-        "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-        "isVeg": true,
-        "isBestseller": false,
-        "isCustomisable": true
+        "id": "cat_001",
+        "name": "Festive Specials",
+        "dishes": [
+          {
+            "id": "dish_001",
+            "name": "Dry Fruit Mawa Gujiya",
+            "price": 300,
+            "originalPrice": 380,
+            "description": "Experience the joy of Holi with our special desi ghee dry fruit mawa gujiya. Crispy pastry stuffed with khoya, cashews, almonds, and pistachios. Deep-fried to golden perfection.",
+            "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "6 pieces (500g)",
+            "calories": 420,
+            "allergens": ["Nuts", "Dairy", "Gluten"],
+            "customisations": [
+              { "name": "Add Extra Dry Fruits", "price": 50 },
+              { "name": "Sugar-Free Version", "price": 20 }
+            ]
+          },
+          {
+            "id": "dish_002",
+            "name": "Motichoor Laddu",
+            "price": 300,
+            "originalPrice": 300,
+            "description": "Motichoor laddu made from ultra-fine chickpea flour pearls, fried and soaked in sugar syrup, shaped into melt-in-mouth balls garnished with melon seeds.",
+            "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "500g (approx 12 pieces)",
+            "calories": 380,
+            "allergens": ["Dairy", "Gluten"]
+          },
+          {
+            "id": "dish_003",
+            "name": "Stuffed Gulab Jamun",
+            "price": 250,
+            "originalPrice": 280,
+            "description": "Soft khoya dumplings stuffed with dry fruits, soaked in saffron-infused rose sugar syrup. Served warm.",
+            "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "6 pieces",
+            "calories": 310,
+            "allergens": ["Dairy", "Nuts"]
+          }
+        ]
       },
       {
-        "id": "2",
-        "name": "Motichoor Laddu",
-        "price": 300,
-        "description": "Motichoor laddu, a popular Indian sweet made from fine chickpea flour (besan) pearls...",
-        "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-        "isVeg": true,
-        "isBestseller": true,
-        "isCustomisable": false
-      },
-      {
-        "id": "3",
-        "name": "Stuffed Gulab Jamun [6 Pieces]",
-        "price": 250,
-        "description": "Delicious soft gulab jamuns stuffed with dry fruits and soaked in saffron syrup.",
-        "imageUrl": "https://images.unsplash.com/photo-1605194000384-439c3ced8d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-        "isVeg": true,
-        "isBestseller": true,
-        "isCustomisable": false
+        "id": "cat_002",
+        "name": "Classic Mithai",
+        "dishes": [
+          {
+            "id": "dish_004",
+            "name": "Kaju Katli",
+            "price": 450,
+            "originalPrice": 500,
+            "description": "Premium cashew fudge made with the finest kaju, thin silver vark, and just the right sweetness. A gifting favourite.",
+            "imageUrl": "https://images.unsplash.com/photo-1571167366136-b57e07161714?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "250g",
+            "calories": 340,
+            "allergens": ["Nuts", "Dairy"]
+          },
+          {
+            "id": "dish_005",
+            "name": "Rasgulla",
+            "price": 180,
+            "originalPrice": 180,
+            "description": "Spongy chenna balls boiled in light sugar syrup. The original Bengali recipe, soft and pillowy.",
+            "imageUrl": "https://images.unsplash.com/photo-1571167366136-b57e07161714?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": false,
+            "portionSize": "6 pieces",
+            "calories": 220,
+            "allergens": ["Dairy"]
+          }
+        ]
       }
     ]
   },
+
   {
+    "id": "rest_002",
     "name": "Chinese Wok",
-    "imageUrl": "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "chinese-wok",
+    "imageUrl": "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1563245372-f24685b17e42?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["Chinese", "Indo-Chinese", "Asian"],
     "rating": 3.9,
+    "totalRatings": 1523,
     "time": "45-50 mins",
+    "deliveryFee": 40,
+    "minOrder": 150,
     "offer": "Items starting at ₹149",
+    "offerCode": "WOK149",
     "isPromoted": true,
     "isVeg": true,
-    "dishes": [
+    "isPureVeg": true,
+    "isOpen": true,
+    "address": "B-12, Sector 18, Noida, Uttar Pradesh - 201301",
+    "phone": "+91-98001-22334",
+    "openingHours": "11:00 AM – 11:00 PM",
+    "tags": ["Fast Delivery", "Indo-Chinese", "Budget Friendly"],
+    "description": "Authentic Indo-Chinese flavours straight from the wok to your door. Bold sauces, fresh veggies, and that unmistakable smoky wok char.",
+    "categories": [
       {
-        "id": "4",
-        "name": "Hakka Noodles",
-        "price": 180,
-        "description": "Classic wok-tossed noodles with veggies.",
-        "imageUrl": "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-        "isVeg": true,
-        "isBestseller": true,
-        "isCustomisable": true
+        "id": "cat_003",
+        "name": "Noodles & Rice",
+        "dishes": [
+          {
+            "id": "dish_006",
+            "name": "Hakka Noodles",
+            "price": 180,
+            "originalPrice": 200,
+            "description": "Classic wok-tossed noodles with bell peppers, cabbage, carrots and spring onions in a savory soy sauce. Available in veg and egg variants.",
+            "imageUrl": "https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Regular (350g)",
+            "calories": 480,
+            "allergens": ["Gluten", "Soy"],
+            "customisations": [
+              { "name": "Extra Spicy", "price": 0 },
+              { "name": "Add Egg", "price": 30 },
+              { "name": "Upgrade to Large", "price": 50 }
+            ]
+          },
+          {
+            "id": "dish_007",
+            "name": "Schezwan Fried Rice",
+            "price": 190,
+            "originalPrice": 210,
+            "description": "Wok-fired rice with vegetables tossed in house-made fiery Schezwan sauce. Smoky, spicy, utterly addictive.",
+            "imageUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Regular (380g)",
+            "calories": 520,
+            "allergens": ["Soy", "Gluten"],
+            "customisations": [
+              { "name": "Add Egg", "price": 30 },
+              { "name": "Add Paneer", "price": 60 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cat_004",
+        "name": "Starters",
+        "dishes": [
+          {
+            "id": "dish_008",
+            "name": "Crispy Corn",
+            "price": 149,
+            "originalPrice": 149,
+            "description": "Golden fried corn kernels tossed with chilli, lime, and spices. The perfect starter.",
+            "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": false,
+            "portionSize": "200g",
+            "calories": 280,
+            "allergens": []
+          },
+          {
+            "id": "dish_009",
+            "name": "Veg Manchurian",
+            "price": 200,
+            "originalPrice": 220,
+            "description": "Crispy vegetable balls in a tangy, spicy Manchurian gravy. Served dry or with gravy.",
+            "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "8 pieces + gravy",
+            "calories": 360,
+            "allergens": ["Gluten", "Soy"],
+            "customisations": [
+              { "name": "Dry", "price": 0 },
+              { "name": "With Gravy", "price": 0 }
+            ]
+          }
+        ]
       }
     ]
   },
+
   {
+    "id": "rest_003",
     "name": "McDonald's",
-    "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "mcdonalds",
+    "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["Burgers", "Fast Food", "American"],
     "rating": 3.9,
-    "time": "45-50 mins",
-    "offer": "50% OFF select items",
+    "totalRatings": 8921,
+    "time": "30-40 mins",
+    "deliveryFee": 0,
+    "minOrder": 100,
+    "offer": "50% OFF on McSaver Meals",
+    "offerCode": "MC50",
     "isPromoted": false,
     "isVeg": false,
-    "dishes": [
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "Ground Floor, Select CityWalk Mall, Saket, New Delhi - 110017",
+    "phone": "+91-1800-102-0000",
+    "openingHours": "10:00 AM – 12:00 AM",
+    "tags": ["Free Delivery", "Family Meals", "Kids Favourite"],
+    "description": "India's favourite fast food chain, serving burgers, wraps, fries and more since 1996. Now with McDelivery right to your door.",
+    "categories": [
       {
-        "id": "5",
-        "name": "McAloo Tikki Burger",
-        "price": 49,
-        "description": "A golden brown aloo tikki patty.",
-        "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-        "isVeg": true,
-        "isBestseller": true,
-        "isCustomisable": false
+        "id": "cat_005",
+        "name": "McSavers",
+        "dishes": [
+          {
+            "id": "dish_010",
+            "name": "McAloo Tikki Burger",
+            "price": 49,
+            "originalPrice": 65,
+            "description": "A spiced potato and peas patty coated in a crispy golden crust, layered with fresh lettuce and creamy sauce in a soft toasted bun.",
+            "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "1 burger",
+            "calories": 336,
+            "allergens": ["Gluten", "Dairy", "Soy"]
+          },
+          {
+            "id": "dish_011",
+            "name": "McSpicy Paneer Burger",
+            "price": 189,
+            "originalPrice": 210,
+            "description": "A thick, crispy-coated paneer patty with spicy habanero sauce, lettuce and cheese in a sesame bun.",
+            "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "1 burger",
+            "calories": 478,
+            "allergens": ["Gluten", "Dairy"]
+          }
+        ]
+      },
+      {
+        "id": "cat_006",
+        "name": "Combos & Meals",
+        "dishes": [
+          {
+            "id": "dish_012",
+            "name": "McAloo Tikki Meal",
+            "price": 149,
+            "originalPrice": 180,
+            "description": "McAloo Tikki Burger + Medium Fries + Medium Cold Drink. The classic value combo.",
+            "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "Combo for 1",
+            "calories": 750,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Coke", "price": 0 },
+              { "name": "Sprite", "price": 0 },
+              { "name": "Fanta", "price": 0 }
+            ]
+          }
+        ]
       }
     ]
   },
+
   {
+    "id": "rest_004",
     "name": "Great Indian Peninsular",
-    "imageUrl": "https://images.unsplash.com/photo-1665401015549-712c0dc5ef85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "great-indian-peninsular",
+    "imageUrl": "https://images.unsplash.com/photo-1665401015549-712c0dc5ef85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://images.unsplash.com/photo-1665401015549-712c0dc5ef85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1665401015549-712c0dc5ef85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["South Indian", "Kerala", "Tamil"],
     "rating": 4.1,
+    "totalRatings": 3204,
     "time": "40-45 mins",
+    "deliveryFee": 25,
+    "minOrder": 200,
     "offer": "₹100 OFF above ₹299",
+    "offerCode": "SOUTH100",
     "isPromoted": true,
-    "isVeg": true
+    "isVeg": true,
+    "isPureVeg": true,
+    "isOpen": true,
+    "address": "22, Anna Salai, T. Nagar, Chennai, Tamil Nadu - 600017",
+    "phone": "+91-98400-11223",
+    "openingHours": "7:00 AM – 11:00 PM",
+    "tags": ["Authentic South Indian", "Breakfast All Day", "Healthy"],
+    "description": "Bringing the rich culinary heritage of peninsular India to your table — from crispy Chettinad dosas to Kerala-style stews and Andhra curries.",
+    "categories": [
+      {
+        "id": "cat_007",
+        "name": "Dosas",
+        "dishes": [
+          {
+            "id": "dish_013",
+            "name": "Masala Dosa",
+            "price": 120,
+            "originalPrice": 130,
+            "description": "Paper-thin crispy rice and lentil crepe with a spiced potato and onion filling. Served with coconut chutney and sambar.",
+            "imageUrl": "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "1 piece + chutneys",
+            "calories": 290,
+            "allergens": []
+          },
+          {
+            "id": "dish_014",
+            "name": "Rava Onion Dosa",
+            "price": 130,
+            "originalPrice": 140,
+            "description": "Crispy semolina dosa scattered with caramelised onions, green chillies, and curry leaves. Lacy, light, and irresistible.",
+            "imageUrl": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": false,
+            "portionSize": "1 piece + chutneys",
+            "calories": 260,
+            "allergens": ["Gluten"]
+          }
+        ]
+      },
+      {
+        "id": "cat_008",
+        "name": "Thali & Meals",
+        "dishes": [
+          {
+            "id": "dish_015",
+            "name": "South Indian Thali",
+            "price": 250,
+            "originalPrice": 280,
+            "description": "A complete banana-leaf style meal: rice, sambar, rasam, 3 curries, papad, pickle, curd, and dessert. Changes daily.",
+            "imageUrl": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "Full meal for 1",
+            "calories": 820,
+            "allergens": ["Dairy"]
+          }
+        ]
+      }
+    ]
   },
+
   {
+    "id": "rest_005",
     "name": "Pizza Hut",
-    "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "pizza-hut",
+    "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["Pizza", "Italian", "Pasta"],
     "rating": 4.1,
+    "totalRatings": 12450,
     "time": "30-35 mins",
-    "offer": "Flat ₹125 OFF",
+    "deliveryFee": 0,
+    "minOrder": 199,
+    "offer": "Flat ₹125 OFF above ₹499",
+    "offerCode": "HUT125",
     "isPromoted": true,
-    "isVeg": false
+    "isVeg": false,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "Shop 201-202, Phoenix Palassio, Lucknow, Uttar Pradesh - 226010",
+    "phone": "+91-1860-200-3030",
+    "openingHours": "10:00 AM – 11:30 PM",
+    "tags": ["Free Delivery", "Pan Pizzas", "Dine-In Available"],
+    "description": "The iconic red rooftop, world-famous stuffed crust and pan pizzas. A global favourite reimagined for India.",
+    "categories": [
+      {
+        "id": "cat_009",
+        "name": "Veg Pizzas",
+        "dishes": [
+          {
+            "id": "dish_016",
+            "name": "Margherita",
+            "price": 299,
+            "originalPrice": 349,
+            "description": "Classic pizza with rich tomato sauce and a generous blanket of mozzarella cheese on a hand-tossed base.",
+            "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Medium (8 slices)",
+            "calories": 620,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Thin & Crispy", "price": 0 },
+              { "name": "Pan Pizza", "price": 40 },
+              { "name": "Stuffed Crust", "price": 60 }
+            ]
+          },
+          {
+            "id": "dish_017",
+            "name": "Farmhouse",
+            "price": 399,
+            "originalPrice": 449,
+            "description": "Loaded with mushrooms, red paprika, black olives and onions on a herb-seasoned tomato base.",
+            "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "Medium (8 slices)",
+            "calories": 710,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Thin & Crispy", "price": 0 },
+              { "name": "Pan Pizza", "price": 40 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cat_010",
+        "name": "Non-Veg Pizzas",
+        "dishes": [
+          {
+            "id": "dish_018",
+            "name": "Chicken Tikka",
+            "price": 499,
+            "originalPrice": 549,
+            "description": "Tandoor-marinated chicken tikka with onions and green capsicum on our signature spicy tomato sauce.",
+            "imageUrl": "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Medium (8 slices)",
+            "calories": 760,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Thin & Crispy", "price": 0 },
+              { "name": "Stuffed Crust", "price": 60 }
+            ]
+          }
+        ]
+      }
+    ]
   },
+
   {
+    "id": "rest_006",
     "name": "Burger King",
-    "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    "slug": "burger-king",
+    "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "imageUrls": [
-      "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     ],
+    "cuisine": ["Burgers", "Fast Food", "Wraps"],
     "rating": 4.2,
+    "totalRatings": 6738,
     "time": "20-25 mins",
-    "offer": "Crispy Veg @ ₹79",
+    "deliveryFee": 0,
+    "minOrder": 100,
+    "offer": "Crispy Veg Burger @ ₹79",
+    "offerCode": "BK79",
     "isPromoted": false,
-    "isVeg": true
+    "isVeg": true,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "Ground Floor, Nexus Shantiniketan Mall, Whitefield, Bengaluru - 560066",
+    "phone": "+91-99000-71134",
+    "openingHours": "10:00 AM – 12:00 AM",
+    "tags": ["Free Delivery", "Flame-Grilled", "Late Night"],
+    "description": "Home of the Whopper and India's favourite flame-grilled burgers. Bigger, bolder, better — always.",
+    "categories": [
+      {
+        "id": "cat_011",
+        "name": "Veg Burgers",
+        "dishes": [
+          {
+            "id": "dish_019",
+            "name": "Crispy Veg Burger",
+            "price": 79,
+            "originalPrice": 109,
+            "description": "A crispy fried vegetable patty with crunchy lettuce, ripe tomato and our signature BK sauce on a toasted sesame bun.",
+            "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "1 burger",
+            "calories": 340,
+            "allergens": ["Gluten", "Dairy"]
+          },
+          {
+            "id": "dish_020",
+            "name": "Paneer King",
+            "price": 199,
+            "originalPrice": 239,
+            "description": "A thick grilled paneer patty marinated in tandoori spices, topped with onion rings, jalapenos and smoky mayo.",
+            "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "1 burger",
+            "calories": 510,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Extra Cheese", "price": 30 },
+              { "name": "No Onions", "price": 0 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cat_012",
+        "name": "Non-Veg Burgers",
+        "dishes": [
+          {
+            "id": "dish_021",
+            "name": "Chicken Whopper",
+            "price": 289,
+            "originalPrice": 329,
+            "description": "A flame-grilled chicken patty with fresh lettuce, tomatoes, onions, pickles, ketchup and mayo in a sesame bun. BK's signature.",
+            "imageUrl": "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "1 burger",
+            "calories": 590,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Double Patty", "price": 80 },
+              { "name": "Extra Cheese", "price": 30 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cat_013",
+        "name": "Sides & Drinks",
+        "dishes": [
+          {
+            "id": "dish_022",
+            "name": "French Fries",
+            "price": 99,
+            "originalPrice": 119,
+            "description": "Golden crispy fries with our signature seasoning. Available in regular and large.",
+            "imageUrl": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "Regular",
+            "calories": 320,
+            "allergens": [],
+            "customisations": [
+              { "name": "Regular", "price": 0 },
+              { "name": "Large (+₹30)", "price": 30 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "rest_007",
+    "name": "Biryani Blues",
+    "slug": "biryani-blues",
+    "imageUrl": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "cuisine": ["Biryani", "Mughlai", "North Indian"],
+    "rating": 4.5,
+    "totalRatings": 9102,
+    "time": "35-45 mins",
+    "deliveryFee": 0,
+    "minOrder": 249,
+    "offer": "Free Raita on orders above ₹399",
+    "offerCode": "BIRYANI",
+    "isPromoted": true,
+    "isVeg": false,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "16, Hudson Lane, GTB Nagar, Delhi - 110009",
+    "phone": "+91-95600-11221",
+    "openingHours": "12:00 PM – 12:00 AM",
+    "tags": ["Top Rated", "Dum Biryani", "Free Delivery"],
+    "description": "Slow-cooked dum biryanis crafted with aged basmati, whole spices, and generations-old recipes. Every pot sealed and opened fresh for you.",
+    "categories": [
+      {
+        "id": "cat_014",
+        "name": "Dum Biryanis",
+        "dishes": [
+          {
+            "id": "dish_023",
+            "name": "Chicken Dum Biryani",
+            "price": 299,
+            "originalPrice": 349,
+            "description": "Slow-cooked over charcoal in a sealed handi — tender chicken marinated in yogurt and spices, layered with fragrant saffron basmati. Served with raita and salan.",
+            "imageUrl": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Regular (serves 1)",
+            "calories": 680,
+            "allergens": ["Dairy"],
+            "customisations": [
+              { "name": "Half kg (+₹150)", "price": 150 },
+              { "name": "Full kg (+₹280)", "price": 280 }
+            ]
+          },
+          {
+            "id": "dish_024",
+            "name": "Mutton Dum Biryani",
+            "price": 399,
+            "originalPrice": 449,
+            "description": "Fall-off-the-bone mutton pieces slow-cooked in Awadhi-style biryani masala with fried onions and mint leaves.",
+            "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "Regular (serves 1)",
+            "calories": 780,
+            "allergens": ["Dairy"]
+          },
+          {
+            "id": "dish_025",
+            "name": "Veg Dum Biryani",
+            "price": 229,
+            "originalPrice": 269,
+            "description": "Mixed seasonal vegetables and paneer layered with saffron-infused basmati and slow-cooked in a sealed pot.",
+            "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": false,
+            "portionSize": "Regular (serves 1)",
+            "calories": 540,
+            "allergens": ["Dairy"]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "rest_008",
+    "name": "Starbucks",
+    "slug": "starbucks",
+    "imageUrl": "https://images.unsplash.com/photo-1531835551805-16d864c8d311?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1531835551805-16d864c8d311?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "cuisine": ["Coffee", "Beverages", "Bakery"],
+    "rating": 4.4,
+    "totalRatings": 15234,
+    "time": "20-30 mins",
+    "deliveryFee": 35,
+    "minOrder": 200,
+    "offer": "Buy 2 Frappuccinos, Get 1 Free",
+    "offerCode": "SBUX3FOR2",
+    "isPromoted": true,
+    "isVeg": true,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "Ground Floor, Cyber Hub, DLF Cyber City, Gurugram, Haryana - 122002",
+    "phone": "+91-1860-500-4477",
+    "openingHours": "7:00 AM – 11:00 PM",
+    "tags": ["Coffee Chain", "Desserts", "Work-Friendly"],
+    "description": "Your daily ritual, delivered. From rich espresso to indulgent frappuccinos, Starbucks brings its signature experience to your doorstep.",
+    "categories": [
+      {
+        "id": "cat_015",
+        "name": "Hot Beverages",
+        "dishes": [
+          {
+            "id": "dish_026",
+            "name": "Caffè Latte",
+            "price": 295,
+            "originalPrice": 295,
+            "description": "Rich, full-bodied espresso balanced with smooth steamed whole milk. A timeless classic.",
+            "imageUrl": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Tall (12 oz)",
+            "calories": 190,
+            "allergens": ["Dairy"],
+            "customisations": [
+              { "name": "Tall", "price": 0 },
+              { "name": "Grande (+₹30)", "price": 30 },
+              { "name": "Venti (+₹50)", "price": 50 },
+              { "name": "Oat Milk", "price": 60 }
+            ]
+          },
+          {
+            "id": "dish_027",
+            "name": "Cappuccino",
+            "price": 285,
+            "originalPrice": 285,
+            "description": "Dark espresso beneath a thick, velvety foam. Bold, beautiful, and classic Italian.",
+            "imageUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": true,
+            "portionSize": "Tall (12 oz)",
+            "calories": 140,
+            "allergens": ["Dairy"],
+            "customisations": [
+              { "name": "Dry Cappuccino", "price": 0 },
+              { "name": "Extra Shot (+₹60)", "price": 60 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cat_016",
+        "name": "Frappuccinos",
+        "dishes": [
+          {
+            "id": "dish_028",
+            "name": "Java Chip Frappuccino",
+            "price": 485,
+            "originalPrice": 485,
+            "description": "Blended mocha sauce, Frappuccino chips, milk and ice, topped with whipped cream and mocha drizzle.",
+            "imageUrl": "https://images.unsplash.com/photo-1531835551805-16d864c8d311?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Grande (16 oz)",
+            "calories": 470,
+            "allergens": ["Dairy", "Gluten"],
+            "customisations": [
+              { "name": "No Whip", "price": 0 },
+              { "name": "Extra Whip", "price": 0 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "rest_009",
+    "name": "Pind Punjabi",
+    "slug": "pind-punjabi",
+    "imageUrl": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "cuisine": ["North Indian", "Punjabi", "Tandoor"],
+    "rating": 4.3,
+    "totalRatings": 5421,
+    "time": "40-50 mins",
+    "deliveryFee": 30,
+    "minOrder": 300,
+    "offer": "Complimentary Lassi on orders above ₹599",
+    "offerCode": "PUNJAB599",
+    "isPromoted": false,
+    "isVeg": false,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "45, Amritsar Road, Karol Bagh, New Delhi - 110005",
+    "phone": "+91-98111-44556",
+    "openingHours": "12:00 PM – 11:30 PM",
+    "tags": ["Tandoor Specials", "Butter Chicken", "Dal Makhani"],
+    "description": "Authentic Punjabi home-style cooking — rich gravies, smoky tandoor breads, and generous portions that feel like a warm hug from the land of five rivers.",
+    "categories": [
+      {
+        "id": "cat_017",
+        "name": "Tandoor Specials",
+        "dishes": [
+          {
+            "id": "dish_029",
+            "name": "Butter Chicken",
+            "price": 350,
+            "originalPrice": 390,
+            "description": "Tender chicken tikka simmered in a luscious tomato-butter gravy with cream, cashew paste, and a hint of fenugreek. Best enjoyed with naan.",
+            "imageUrl": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "Half (250ml gravy)",
+            "calories": 540,
+            "allergens": ["Dairy", "Nuts"],
+            "customisations": [
+              { "name": "Half", "price": 0 },
+              { "name": "Full (+₹300)", "price": 300 }
+            ]
+          },
+          {
+            "id": "dish_030",
+            "name": "Dal Makhani",
+            "price": 280,
+            "originalPrice": 310,
+            "description": "Overnight slow-cooked whole black lentils and red kidney beans in a buttery tomato base. Finished with cream and a touch of smoke.",
+            "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "Half (250ml)",
+            "calories": 420,
+            "allergens": ["Dairy"]
+          },
+          {
+            "id": "dish_031",
+            "name": "Garlic Naan",
+            "price": 60,
+            "originalPrice": 70,
+            "description": "Fluffy leavened bread baked in a clay tandoor, brushed with garlic butter and chopped coriander.",
+            "imageUrl": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": false,
+            "isCustomisable": false,
+            "portionSize": "1 piece",
+            "calories": 200,
+            "allergens": ["Gluten", "Dairy"]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "rest_010",
+    "name": "Rolls Republic",
+    "slug": "rolls-republic",
+    "imageUrl": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    ],
+    "cuisine": ["Rolls", "Wraps", "Street Food"],
+    "rating": 4.0,
+    "totalRatings": 3891,
+    "time": "20-30 mins",
+    "deliveryFee": 20,
+    "minOrder": 100,
+    "offer": "2 Rolls for ₹199",
+    "offerCode": "ROLL2FOR199",
+    "isPromoted": false,
+    "isVeg": false,
+    "isPureVeg": false,
+    "isOpen": true,
+    "address": "Food Court, Infinity Mall, Malad West, Mumbai - 400064",
+    "phone": "+91-98201-87654",
+    "openingHours": "11:00 AM – 11:00 PM",
+    "tags": ["Quick Bites", "Street Food", "Budget"],
+    "description": "Kolkata-style kathi rolls, wraps, and frankies made fresh on the griddle. The ultimate street food fix.",
+    "categories": [
+      {
+        "id": "cat_018",
+        "name": "Classic Rolls",
+        "dishes": [
+          {
+            "id": "dish_032",
+            "name": "Paneer Tikka Roll",
+            "price": 120,
+            "originalPrice": 140,
+            "description": "Chargrilled paneer tikka with sliced onions, mint chutney, and a squeeze of lime, wrapped in a flaky paratha.",
+            "imageUrl": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": true,
+            "isBestseller": true,
+            "isCustomisable": true,
+            "portionSize": "1 roll",
+            "calories": 380,
+            "allergens": ["Gluten", "Dairy"],
+            "customisations": [
+              { "name": "Extra Chutney", "price": 0 },
+              { "name": "Add Cheese", "price": 30 }
+            ]
+          },
+          {
+            "id": "dish_033",
+            "name": "Chicken Seekh Roll",
+            "price": 150,
+            "originalPrice": 170,
+            "description": "Juicy minced chicken seekh kebab with crispy onions, green chutney, and tamarind sauce in a soft rumali paratha.",
+            "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+            "isVeg": false,
+            "isBestseller": true,
+            "isCustomisable": false,
+            "portionSize": "1 roll",
+            "calories": 420,
+            "allergens": ["Gluten"]
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -379,11 +379,18 @@ class _SearchScreenState extends State<SearchScreen> {
           leading: Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: NetworkImage(r.imageUrl),
+              child: Image.network(
+                r.imageUrl,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.network(
+                    'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
           ),

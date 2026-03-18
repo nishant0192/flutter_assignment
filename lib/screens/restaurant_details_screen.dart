@@ -16,6 +16,10 @@ class RestaurantDetailsScreen extends StatefulWidget {
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   late ScrollController _scrollController;
   bool _isScrolled = false;
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+  String _searchQuery = '';
+  bool _isSearching = false;
 
   @override
   void initState() {
@@ -35,11 +39,21 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final displayedDishes = _searchQuery.isEmpty
+        ? widget.restaurant.dishes
+        : widget.restaurant.dishes.where((d) {
+            final query = _searchQuery.toLowerCase();
+            return d.name.toLowerCase().contains(query) ||
+                d.description.toLowerCase().contains(query);
+          }).toList();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -58,7 +72,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     duration: const Duration(milliseconds: 200),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: _isScrolled
+                      color: (_isScrolled || _isSearching)
                           ? Colors.transparent
                           : Colors.black.withOpacity(0.5),
                     ),
@@ -66,44 +80,78 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       icon: Icon(
                         Icons.arrow_back_ios_new,
                         size: 20,
-                        color: _isScrolled ? Colors.black : Colors.white,
+                        color: (_isScrolled || _isSearching)
+                            ? Colors.black
+                            : Colors.white,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        if (_isSearching && !_isScrolled) {
+                          setState(() {
+                            _isSearching = false;
+                            _searchQuery = '';
+                            _searchController.clear();
+                          });
+                          _searchFocusNode.unfocus();
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                   ),
                 ),
-                title: _isScrolled
+                title: (_isScrolled || _isSearching)
                     ? Container(
                         height: 40,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Row(
-                          children: [
-                            const Icon(
+                        child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          onChanged: (val) {
+                            setState(() {
+                              _searchQuery = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Search in ${widget.restaurant.name}',
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            prefixIcon: const Icon(
                               Icons.search,
                               color: Colors.red,
                               size: 20,
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                'Search in ${widget.restaurant.name}',
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                          ],
+                            suffixIcon: _searchQuery.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 16,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      setState(() {
+                                        _searchQuery = '';
+                                      });
+                                    },
+                                  )
+                                : null,
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 0,
+                              vertical: 10,
+                            ), // prefixIcon provides left padding
+                          ),
                         ),
                       )
                     : const SizedBox.shrink(),
                 actions: [
-                  if (!_isScrolled) ...[
+                  if (!_isScrolled && !_isSearching) ...[
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -113,7 +161,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       ),
                       child: IconButton(
                         icon: const Icon(Icons.search, color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          // Scroll down a bit or just show searching state
+                          setState(() {
+                            _isSearching = true;
+                          });
+                          _searchFocusNode.requestFocus();
+                        },
                       ),
                     ),
                     AnimatedContainer(
@@ -132,12 +186,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       ),
                     ),
                   ],
-                  if (_isScrolled)
+                  if (_isScrolled || _isSearching)
                     IconButton(
                       icon: const Icon(Icons.more_vert, color: Colors.black),
                       onPressed: () {},
                     ),
-                  if (!_isScrolled)
+                  if (!_isScrolled && !_isSearching)
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -160,9 +214,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         widget.restaurant.imageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
-                          return Image.network(
-                            'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                            fit: BoxFit.cover,
+                          return Container(
+                            color: Colors.grey.shade200,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.restaurant,
+                              size: 40,
+                              color: Colors.grey.shade400,
+                            ),
                           );
                         },
                       ),
@@ -223,7 +282,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  final dish = widget.restaurant.dishes[index];
+                  if (index >= displayedDishes.length)
+                    return const SizedBox.shrink();
+                  final dish = displayedDishes[index];
                   return Container(
                     color: Colors.white,
                     child: DishItemWidget(
@@ -242,7 +303,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       },
                     ),
                   );
-                }, childCount: widget.restaurant.dishes.length),
+                }, childCount: displayedDishes.length),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
@@ -345,16 +406,31 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 color: Colors.white,
               ),
               child: ClipOval(
-                child: Image.network(
-                  dish.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.network(
-                      'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
+                child: dish.imageUrl.isEmpty
+                    ? Container(
+                        color: Colors.grey.shade200,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.restaurant,
+                          size: 20,
+                          color: Colors.grey.shade400,
+                        ),
+                      )
+                    : Image.network(
+                        dish.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey.shade200,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.restaurant,
+                              size: 20,
+                              color: Colors.grey.shade400,
+                            ),
+                          );
+                        },
+                      ),
               ),
             ),
           );
@@ -545,19 +621,26 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.local_offer, color: Colors.blue, size: 18),
-              const SizedBox(width: 8),
-              Text(
-                widget.restaurant.offer,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+          Expanded(
+            child: Row(
+              children: [
+                const Icon(Icons.local_offer, color: Colors.blue, size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    widget.restaurant.offer,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          const SizedBox(width: 16),
           Row(
             children: const [
               Text(
@@ -750,16 +833,31 @@ class DishItemWidget extends StatelessWidget {
                       child: SizedBox(
                         height: 120,
                         width: double.infinity,
-                        child: Image.network(
-                          dish.imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.network(
-                              'https://images.unsplash.com/photo-1544025162-811afe52fa31?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
+                        child: dish.imageUrl.isEmpty
+                            ? Container(
+                                color: Colors.grey.shade200,
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.restaurant,
+                                  size: 40,
+                                  color: Colors.grey.shade400,
+                                ),
+                              )
+                            : Image.network(
+                                dish.imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: Colors.grey.shade200,
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.restaurant,
+                                      size: 40,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
                     ),
                     Positioned(bottom: -15, child: _buildAddButton()),

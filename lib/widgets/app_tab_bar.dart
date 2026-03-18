@@ -34,7 +34,7 @@ class AppTabBar extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: SizedBox(
-          height: 64, // Increased height
+          height: 56, // Reduced height to look wider
           child: TabBar(
             controller: controller,
             labelPadding: EdgeInsets.zero,

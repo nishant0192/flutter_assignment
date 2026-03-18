@@ -69,6 +69,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We require camera access to connect to a call</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We require microphone access to connect to a call</string>
+	<string>We require microphone access to connect to a call and for voice search</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We require speech recognition access for voice search</string>
 </dict>
 </plist>

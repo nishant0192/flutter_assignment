@@ -6,6 +6,7 @@ class SearchArea extends StatelessWidget {
   final ValueChanged<String>? onSearchChanged;
 
   final VoidCallback? onTap;
+  final VoidCallback? onMicTap;
 
   const SearchArea({
     super.key,
@@ -13,6 +14,7 @@ class SearchArea extends StatelessWidget {
     required this.onVegToggle,
     this.onSearchChanged,
     this.onTap,
+    this.onMicTap,
   });
 
   @override
@@ -61,7 +63,13 @@ class SearchArea extends StatelessWidget {
                   ),
                   Container(width: 1, height: 24, color: Colors.grey.shade300),
                   const SizedBox(width: 8),
-                  Icon(Icons.mic_none_outlined, color: Colors.green.shade800),
+                  GestureDetector(
+                    onTap: onMicTap,
+                    child: Icon(
+                      Icons.mic_none_outlined,
+                      color: Colors.green.shade800,
+                    ),
+                  ),
                 ],
               ),
             ),

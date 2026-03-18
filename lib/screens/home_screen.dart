@@ -360,6 +360,15 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   );
                 },
+                onMicTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const SearchScreen(autoFocusMic: true),
+                    ),
+                  );
+                },
                 onVegToggle: (val) {
                   setState(() {
                     _filterOptions = _filterOptions.copyWith(isPureVeg: val);

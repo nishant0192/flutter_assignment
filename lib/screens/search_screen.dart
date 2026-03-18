@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:permission_handler/permission_handler.dart';
 import '../models/app_data.dart';
 import 'restaurant_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final bool autoFocusMic;
+
+  const SearchScreen({super.key, this.autoFocusMic = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -18,6 +22,9 @@ class _SearchScreenState extends State<SearchScreen> {
   bool _isLoading = true;
   String _searchQuery = '';
 
+  stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
+
   List<String> _recentSearches = [
     'Chinese Wok',
     'Natural Ice Cream',
@@ -27,7 +34,38 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadData().then((_) {
+      if (widget.autoFocusMic) {
+        _listen();
+      }
+    });
+  }
+
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => debugPrint('onStatus: $val'),
+        onError: (val) => debugPrint('onError: $val'),
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            _searchController.text = val.recognizedWords;
+            _searchQuery = val.recognizedWords;
+          }),
+        );
+      } else {
+        setState(() => _isListening = false);
+        var status = await Permission.microphone.request();
+        if (status == PermissionStatus.granted) {
+          _listen();
+        }
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
   }
 
   Future<void> _loadData() async {
@@ -158,9 +196,15 @@ class _SearchScreenState extends State<SearchScreen> {
                       width: 1,
                       color: Colors.grey.shade300,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Icon(Icons.mic_none_outlined, color: Colors.green),
+                    GestureDetector(
+                      onTap: _listen,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Icon(
+                          _isListening ? Icons.mic : Icons.mic_none_outlined,
+                          color: _isListening ? Colors.red : Colors.green,
+                        ),
+                      ),
                     ),
                   ],
                 ),

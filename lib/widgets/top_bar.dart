@@ -103,10 +103,10 @@ class TopBar extends StatelessWidget {
                   color: isDarkBackground ? Colors.white : Colors.black87,
                 ),
                 color: isDarkBackground
-                    ? Colors.white.withOpacity(0.2)
+                    ? Colors.white.withOpacity(0.12)
                     : Colors.white,
                 borderColor: isDarkBackground
-                    ? Colors.transparent
+                    ? Colors.white.withOpacity(0.15)
                     : Colors.grey.shade400,
                 width: 38,
                 height: 38,
@@ -132,15 +132,22 @@ class TopBar extends StatelessWidget {
                           : '?';
                       return Text(
                         initial,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
+                          color: isDarkBackground
+                              ? Colors.orange.shade300
+                              : Colors.orange.shade900,
                         ),
                       );
                     },
                   ),
-                  color: Colors.orange.shade100,
-                  borderColor: Colors.orange,
+                  color: isDarkBackground
+                      ? Colors.orange.withOpacity(0.15)
+                      : Colors.orange.shade100,
+                  borderColor: isDarkBackground
+                      ? Colors.orange.withOpacity(0.3)
+                      : Colors.orange,
                   width: 38,
                   height: 38,
                 ),

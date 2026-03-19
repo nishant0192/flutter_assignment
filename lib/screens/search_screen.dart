@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
@@ -110,19 +111,20 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     final searchResults = _getSearchResults();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         titleSpacing: 16,
         title: Row(
@@ -132,11 +134,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 FocusManager.instance.primaryFocus?.unfocus();
                 Navigator.pop(context);
               },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 12.0),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
                 child: Icon(
                   Icons.arrow_back_ios,
-                  color: Colors.black87,
+                  color: isDark ? Colors.white : Colors.black87,
                   size: 22,
                 ),
               ),
@@ -145,10 +147,12 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Container(
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
-                  boxShadow: [
+                  border: Border.all(
+                    color: isDark ? Colors.white10 : Colors.grey.shade300,
+                  ),
+                  boxShadow: isDark ? null : [
                     BoxShadow(
                       color: Colors.grey.shade100,
                       blurRadius: 4,
@@ -167,9 +171,14 @@ class _SearchScreenState extends State<SearchScreen> {
                             _searchQuery = val;
                           });
                         },
+                        style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black87,
+                        ),
                         decoration: InputDecoration(
                           hintText: 'Restaurant name or a dish...',
-                          hintStyle: TextStyle(color: Colors.grey.shade500),
+                          hintStyle: TextStyle(
+                            color: isDark ? Colors.white38 : Colors.grey.shade500,
+                          ),
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -186,15 +195,18 @@ class _SearchScreenState extends State<SearchScreen> {
                             _searchQuery = '';
                           });
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Icon(Icons.close, color: Colors.grey),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Icon(
+                            Icons.close,
+                            color: isDark ? Colors.white38 : Colors.grey,
+                          ),
                         ),
                       ),
                     Container(
                       height: 24,
                       width: 1,
-                      color: Colors.grey.shade300,
+                      color: isDark ? Colors.white10 : Colors.grey.shade300,
                     ),
                     GestureDetector(
                       onTap: _listen,
@@ -220,6 +232,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildInitialView() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -235,7 +248,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
-                    color: Colors.grey.shade600,
+                    color: isDark ? Colors.white60 : Colors.grey.shade600,
                   ),
                 ),
                 GestureDetector(
@@ -266,9 +279,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.card(context),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey.shade300),
+                    border: Border.all(
+                      color: isDark ? Colors.white10 : Colors.grey.shade300,
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -276,14 +291,15 @@ class _SearchScreenState extends State<SearchScreen> {
                       Icon(
                         Icons.history,
                         size: 14,
-                        color: Colors.grey.shade600,
+                        color: isDark ? Colors.white60 : Colors.grey.shade600,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         search,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
+                          color: isDark ? Colors.white : Colors.black87,
                         ),
                       ),
                     ],
@@ -299,7 +315,7 @@ class _SearchScreenState extends State<SearchScreen> {
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
-              color: Colors.grey.shade600,
+              color: isDark ? Colors.white60 : Colors.grey.shade600,
             ),
           ),
           const SizedBox(height: 16),
@@ -320,9 +336,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   AspectRatio(
                     aspectRatio: 1,
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
+                        color: AppColors.card(context),
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: Image.network(
@@ -343,11 +359,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
+                      color: isDark ? Colors.white : Colors.black87,
+                      ),
                   ),
                 ],
               );

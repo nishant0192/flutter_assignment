@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +9,7 @@ import '../models/address_model.dart';
 import '../models/user_profile.dart';
 import 'package:uuid/uuid.dart';
 import 'location_screen.dart';
+import '../widgets/primary_button.dart';
 
 class AddEditAddressScreen extends StatefulWidget {
   final AddressModel? existingAddress;
@@ -199,14 +201,16 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
       }
 
       savedAddressesNotifier.value = addresses;
+      currentAddressNotifier.value = updatedAddress; // Set as current address
       Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -214,9 +218,9 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.card(context),
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -239,15 +243,16 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.card(context),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: isDark ? Colors.black26 : Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
+              border: Border.all(color: isDark ? Colors.white10 : Colors.transparent),
             ),
             child: Row(
               children: [
@@ -257,7 +262,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                   child: Text(
                     'Search for area, street name...',
                     style: TextStyle(
-                      color: Colors.grey.shade500,
+                      color: isDark ? Colors.white38 : Colors.grey.shade500,
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                     ),
@@ -278,7 +283,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
             left: 0,
             right: 0,
             child: Container(
-              color: const Color(0xFFE5E3DF),
+              color: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFE5E3DF),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -311,6 +316,17 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                         userAgentPackageName:
                             'com.example.flutter_application_1',
+                        tileBuilder: isDark ? (context, tileWidget, tile) {
+                          return ColorFiltered(
+                            colorFilter: const ColorFilter.matrix([
+                              -1, 0, 0, 0, 255,
+                              0, -1, 0, 0, 255,
+                              0, 0, -1, 0, 255,
+                              0, 0, 0, 1, 0,
+                            ]),
+                            child: tileWidget,
+                          );
+                        } : null,
                       ),
                     ],
                   ),
@@ -352,17 +368,17 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
               snap: true,
               builder: (context, scrollController) {
                 return Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: AppColors.card(context),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black12,
+                        color: isDark ? Colors.black45 : Colors.black12,
                         blurRadius: 10,
-                        offset: Offset(0, -2),
+                        offset: const Offset(0, -2),
                       ),
                     ],
                   ),
@@ -381,7 +397,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                               height: 4,
                               margin: const EdgeInsets.only(bottom: 16),
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
+                                color: isDark ? Colors.white10 : Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),
@@ -389,7 +405,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Text(
                             'Delivery details',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white60 : Colors.grey.shade600,
                               fontSize: 12,
                             ),
                           ),
@@ -397,7 +413,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade200),
+                              border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade200),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
@@ -413,17 +429,18 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                         (_fetchedAddress.isNotEmpty
                                             ? _fetchedAddress
                                             : 'Fetching address...'),
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
+                                      color: isDark ? Colors.white70 : Colors.black87,
                                     ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.chevron_right,
-                                  color: Colors.grey,
+                                  color: isDark ? Colors.white24 : Colors.grey,
                                 ),
                               ],
                             ),
@@ -431,19 +448,20 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           const SizedBox(height: 16),
                           TextFormField(
                             controller: _addressDetailsController,
+                            style: TextStyle(color: isDark ? Colors.white : Colors.black87),
                             decoration: InputDecoration(
                               hintText: 'Address details*',
-                              hintStyle: TextStyle(color: Colors.grey.shade400),
+                              hintStyle: TextStyle(color: isDark ? Colors.white38 : Colors.grey.shade400),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
+                                  color: isDark ? Colors.white10 : Colors.grey.shade300,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
+                                  color: isDark ? Colors.white10 : Colors.grey.shade300,
                                 ),
                               ),
                             ),
@@ -455,7 +473,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Text(
                             'E.g. Floor, Flat no., Tower',
                             style: TextStyle(
-                              color: Colors.grey.shade500,
+                              color: isDark ? Colors.white38 : Colors.grey.shade500,
                               fontSize: 11,
                             ),
                           ),
@@ -464,7 +482,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Text(
                             'Receiver details for this address',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white60 : Colors.grey.shade600,
                               fontSize: 12,
                             ),
                           ),
@@ -475,14 +493,14 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade200),
+                              border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade200),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.phone_in_talk_outlined,
-                                  color: Colors.black87,
+                                  color: isDark ? Colors.white70 : Colors.black87,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 12),
@@ -493,16 +511,18 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                         flex: 1,
                                         child: TextFormField(
                                           controller: _receiverNameController,
+                                          style: TextStyle(color: isDark ? Colors.white : Colors.black87),
                                           decoration: const InputDecoration(
                                             hintText: 'Name',
                                             border: InputBorder.none,
                                           ),
                                         ),
                                       ),
-                                      const Text(
+                                      Text(
                                         ', ',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
+                                          color: isDark ? Colors.white70 : Colors.black87,
                                         ),
                                       ),
                                       Expanded(
@@ -510,6 +530,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                         child: TextFormField(
                                           controller: _phoneController,
                                           keyboardType: TextInputType.phone,
+                                          style: TextStyle(color: isDark ? Colors.white : Colors.black87),
                                           decoration: const InputDecoration(
                                             hintText: 'Phone Number',
                                             border: InputBorder.none,
@@ -527,7 +548,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Text(
                             'Save address as',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white60 : Colors.grey.shade600,
                               fontSize: 12,
                             ),
                           ),
@@ -548,12 +569,12 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: isSelected
-                                          ? Colors.green.shade50
-                                          : Colors.white,
+                                          ? Colors.green.withOpacity(0.1)
+                                          : AppColors.card(context),
                                       border: Border.all(
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey.shade300,
+                                            : (isDark ? Colors.white10 : Colors.grey.shade300),
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -568,7 +589,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                           size: 16,
                                           color: isSelected
                                               ? Colors.green
-                                              : Colors.black87,
+                                              : (isDark ? Colors.white70 : Colors.black87),
                                         ),
                                         const SizedBox(width: 6),
                                         Text(
@@ -576,7 +597,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                           style: TextStyle(
                                             color: isSelected
                                                 ? Colors.green
-                                                : Colors.black87,
+                                                : (isDark ? Colors.white70 : Colors.black87),
                                             fontWeight: isSelected
                                                 ? FontWeight.w600
                                                 : FontWeight.normal,
@@ -594,7 +615,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                           Text(
                             'Door/building image (optional)',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white60 : Colors.grey.shade600,
                               fontSize: 12,
                             ),
                           ),
@@ -603,11 +624,11 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.grey.shade300,
-                                style: BorderStyle.none,
+                                color: isDark ? Colors.white10 : Colors.grey.shade300,
+                                style: isDark ? BorderStyle.solid : BorderStyle.none,
                               ),
                               borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
+                              color: AppColors.card(context),
                             ),
                             child: Column(
                               children: [
@@ -634,7 +655,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                                   'This helps our delivery partners find\nyour exact location faster',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors.grey.shade500,
+                                    color: isDark ? Colors.white38 : Colors.grey.shade500,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -666,9 +687,15 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDark ? Colors.black45 : Colors.black12,
+                      blurRadius: 4,
+                    )
+                  ],
+                  border: Border.all(color: isDark ? Colors.white10 : Colors.transparent),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -704,35 +731,14 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
         ],
       ),
       bottomSheet: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: 16,
-        ),
-        margin: const EdgeInsets.only(bottom: 16),
+        color: AppColors.card(context),
+        padding: const EdgeInsets.all(16),
         child: SafeArea(
-          child: SizedBox(
+          child: PrimaryButton(
+            onPressed: _saveAddress,
+            label: 'Save address',
+            borderRadius: 12,
             width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _saveAddress,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green.shade700,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Save address',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
           ),
         ),
       ),

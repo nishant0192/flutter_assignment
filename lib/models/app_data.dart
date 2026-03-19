@@ -57,6 +57,7 @@ class Dish {
 
 class Restaurant {
   final String name;
+  final String? slug;
   final String imageUrl;
   final double rating;
   final String time;
@@ -69,6 +70,7 @@ class Restaurant {
 
   const Restaurant({
     required this.name,
+    this.slug,
     required this.imageUrl,
     required this.rating,
     required this.time,
@@ -83,6 +85,7 @@ class Restaurant {
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
       name: json['name'] as String,
+      slug: json['slug'] as String?,
       imageUrl: json['imageUrl'] as String,
       rating: (json['rating'] as num).toDouble(),
       time: json['time'] as String,
@@ -111,6 +114,7 @@ class Restaurant {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'slug': slug,
       'imageUrl': imageUrl,
       'rating': rating,
       'time': time,
@@ -126,11 +130,11 @@ class Restaurant {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Restaurant && other.name == name;
+    return other is Restaurant && (other.slug != null && slug != null ? other.slug == slug : other.name == name);
   }
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode => slug?.hashCode ?? name.hashCode;
 }
 
 class Category {

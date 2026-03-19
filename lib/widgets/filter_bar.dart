@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart';
 import 'filter_bottom_sheet.dart';
 import '../models/filter_options.dart';
 
@@ -36,6 +37,7 @@ class FilterBar extends StatelessWidget {
               }
             },
             child: _buildFilterChip(
+              context: context,
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -52,8 +54,9 @@ class FilterBar extends StatelessWidget {
           ),
           ...filters.map(
             (filter) => Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 16.0),
               child: _buildFilterChip(
+                context: context,
                 child: Text(
                   filter,
                   style: const TextStyle(fontWeight: FontWeight.w500),
@@ -66,22 +69,17 @@ class FilterBar extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChip({required Widget child}) {
+  Widget _buildFilterChip({
+    required BuildContext context,
+    required Widget child,
+  }) {
     return Container(
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey.shade300),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          ),
-        ],
       ),
       alignment: Alignment.center,
       child: child,

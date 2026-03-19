@@ -21,15 +21,17 @@ class AppTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(AppRadius.round),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
+        boxShadow: Theme.of(context).brightness == Brightness.dark
+            ? null
+            : [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
       ),
       child: Material(
         type: MaterialType.transparency,
@@ -41,7 +43,7 @@ class AppTabBar extends StatelessWidget {
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorPadding: EdgeInsets.zero,
             indicator: BoxDecoration(
-              color: Colors.green.shade800,
+              color: AppColors.primary,
               borderRadius: BorderRadius.circular(AppRadius.round),
             ),
             dividerColor: Colors.transparent,

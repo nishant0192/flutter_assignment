@@ -62,8 +62,49 @@ class AppRadius {
 }
 
 class AppColors {
-  static const Color primary = Colors.deepOrange;
+  AppColors._();
+
+  // ── Brand / Primary ────────────────────────────────────────────────────────
+  /// Main brand green used for buttons, active tabs, etc.
+  static const Color primary = Color(0xFF1F803A);
+  static const Color primaryLight = Color(0xFFE8F5E9);
+
+  // ── Text ──────────────────────────────────────────────────────────────────
+  static const Color textPrimary = Color(0xFF1E1E2C);
+  static const Color textSecondary = Color(0xFF666666);
+  static const Color textHint = Color(0xFF999999);
+
+  // ── Backgrounds ────────────────────────────────────────────────────────────
+  static const Color bgLight = Color(0xFFF4F6FB);
+  static const Color bgDark = Color(0xFF101010); // More neutral black-grey
+  static const Color cardLight = Colors.white;
+  static const Color cardDark = Color(
+    0xFF1C1C1C,
+  ); // Neutral dark grey, no blue tint
+
+  // ── Surface / UI elements ──────────────────────────────────────────────────
+  static const Color surface = Color(0xFFF7F7FA);
+  static const Color border = Color(0xFFEEEEEE);
+
+  // ── Status ────────────────────────────────────────────────────────────────
+  static const Color success = Color(0xFF1F803A);
+  static const Color error = Colors.red;
+  static const Color info = Colors.blue;
+
+  // ── Misc ──────────────────────────────────────────────────────────────────
+  static const Color star = Color(0xFFFFB800);
+  static const Color gold = Color(0xFFFFB800);
+  static const Color disabled = Color(0xFFBDBDBD);
+
+  // Legacy aliases kept for backward compat
   static const Color grey = Colors.grey;
   static const Color white = Colors.white;
   static const Color black = Colors.black;
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  static Color card(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? cardDark : cardLight;
+
+  static Color scaffold(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? bgDark : bgLight;
 }

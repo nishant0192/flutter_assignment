@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import 'package:flutter/services.dart';
 import '../models/app_data.dart';
 import '../models/cart_manager.dart';
+import '../models/address_model.dart'; // Add this line
+import '../models/bookmark_manager.dart';
 import 'checkout_screen.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
@@ -47,6 +50,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final displayedDishes = _searchQuery.isEmpty
         ? widget.restaurant.dishes
         : widget.restaurant.dishes.where((d) {
@@ -55,10 +59,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 d.description.toLowerCase().contains(query);
           }).toList();
 
-    bool _showExpandedSearch = _isScrolled || _isSearching;
+    bool _showExpandedSearch = _isSearching; // Only show search bar if searching
     
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.card(context),
       body: Stack(
         children: [
           CustomScrollView(
@@ -68,8 +72,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 expandedHeight: 280.0,
                 pinned: true,
                 elevation: 0,
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.transparent, // Fix for Material 3 tinting the background
+                backgroundColor: AppColors.card(context),
+                surfaceTintColor: Colors.transparent,
                 bottom: const PreferredSize(
                   preferredSize: Size.fromHeight(12.0),
                   child: SizedBox(height: 12.0),
@@ -77,12 +81,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: isDark ? Colors.black54 : Colors.white,
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
+                      icon: Icon(Icons.arrow_back_ios_new, size: 20, color: isDark ? Colors.white : Colors.black),
                       onPressed: () {
                         if (_isSearching && !_isScrolled) {
                           setState(() {
@@ -102,9 +106,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     ? Container(
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.white, // Pure white background
-                          borderRadius: BorderRadius.circular(30), // Pill shape exact to screenshot
-                          border: Border.all(color: Colors.grey.shade300), // Grey border
+                          color: isDark ? Colors.black38 : Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                         ),
                         child: TextField(
                           controller: _searchController,
@@ -117,13 +121,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           decoration: InputDecoration(
                             hintText: 'Search in ${widget.restaurant.name}',
                             hintStyle: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white38 : Colors.grey.shade600,
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
                             ),
                             prefixIcon: const Icon(
                               Icons.search,
-                              color: Color(0xFF1F803A), // Green search icon
+                              color: AppColors.primary,
                               size: 22,
                             ),
                             suffixIcon: _searchQuery.isNotEmpty
@@ -142,7 +146,39 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           ),
                         ),
                       )
-                    : const SizedBox.shrink(),
+                    : (_isScrolled 
+                        ? ValueListenableBuilder<AddressModel>(
+                            valueListenable: currentAddressNotifier,
+                            builder: (context, currentAddress, _) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    widget.restaurant.name,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: isDark ? Colors.white : Colors.black,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '${widget.restaurant.time}s to ${currentAddress.type} | ${currentAddress.subtitle}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isDark ? Colors.white54 : Colors.grey.shade600,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : const SizedBox.shrink()),
                 actions: [
                   if (!_showExpandedSearch) ...[
                     GestureDetector(
@@ -156,22 +192,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDark ? Colors.black54 : Colors.white,
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.grey.shade300),
+                          border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                         ),
                         child: Row(
-                          children: const [
-                            Icon(Icons.search, color: Colors.black, size: 20),
-                            SizedBox(width: 8),
-                            Text(
-                              'Search',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
+                          children: [
+                            Icon(Icons.search, color: isDark ? Colors.white : Colors.black, size: 20),
                           ],
                         ),
                       ),
@@ -180,11 +207,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       margin: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
+                        color: isDark ? Colors.black54 : Colors.white,
+                        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.more_vert, color: Colors.black, size: 20),
+                        icon: Icon(Icons.share_outlined, color: isDark ? Colors.white : Colors.black, size: 20),
                         onPressed: () {},
                       ),
                     ),
@@ -193,11 +220,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       margin: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
+                        color: isDark ? Colors.black54 : Colors.white,
+                        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.more_vert, color: Colors.black, size: 20),
+                        icon: Icon(Icons.more_vert, color: isDark ? Colors.white : Colors.black, size: 20),
                         onPressed: () {},
                       ),
                     ),
@@ -224,14 +251,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         },
                       ),
                       Positioned(
-                        bottom: -1, // Remove 1px gap
+                        bottom: -1,
                         left: 0,
                         right: 0,
                         child: Container(
                           height: 30,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.vertical(
+                          decoration: BoxDecoration(
+                            color: AppColors.card(context),
+                            borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(30),
                             ),
                           ),
@@ -243,7 +270,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -251,25 +278,26 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       Divider(
                         height: 1,
                         thickness: 1,
-                        color: Colors.grey.shade200,
+                        color: isDark ? Colors.white10 : Colors.grey.shade200,
                       ),
                       _buildOfferRow(),
                       Divider(
                         height: 1,
                         thickness: 1,
-                        color: Colors.grey.shade200,
+                        color: isDark ? Colors.white10 : Colors.grey.shade200,
                       ),
                       const SizedBox(height: 16),
                       _buildFiltersRow(),
                       const SizedBox(height: 24),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'Recommended for you',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 0.5,
+                            color: isDark ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
@@ -284,7 +312,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     return const SizedBox.shrink();
                   final dish = displayedDishes[index];
                   return Container(
-                    color: Colors.white,
+                    color: AppColors.card(context),
                     child: DishItemWidget(
                       dish: dish,
                       quantity: cartManager.items[dish] ?? 0,
@@ -330,7 +358,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     horizontal: 16,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1F803A),
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
@@ -386,6 +414,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
     final uniqueDishes = cartManager.items.keys.toList();
     // display up to 3 images overlapping
     final displayCount = uniqueDishes.length > 3 ? 3 : uniqueDishes.length;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return SizedBox(
       height: 36,
@@ -400,18 +429,18 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               width: 36,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF1F803A), width: 2),
-                color: Colors.white,
+                border: Border.all(color: AppColors.primary, width: 2),
+                color: isDark ? Colors.black : Colors.white,
               ),
               child: ClipOval(
                 child: dish.imageUrl.isEmpty
                     ? Container(
-                        color: Colors.grey.shade200,
+                        color: isDark ? Colors.white10 : Colors.grey.shade200,
                         alignment: Alignment.center,
                         child: Icon(
                           Icons.restaurant,
                           size: 20,
-                          color: Colors.grey.shade400,
+                          color: isDark ? Colors.white24 : Colors.grey.shade400,
                         ),
                       )
                     : Image.network(
@@ -419,12 +448,12 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            color: Colors.grey.shade200,
+                            color: isDark ? Colors.white10 : Colors.grey.shade200,
                             alignment: Alignment.center,
                             child: Icon(
                               Icons.restaurant,
                               size: 20,
-                              color: Colors.grey.shade400,
+                              color: isDark ? Colors.white24 : Colors.grey.shade400,
                             ),
                           );
                         },
@@ -432,12 +461,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               ),
             ),
           );
-        }).reversed.toList(), // Reverse to have the first image on top
+        }).reversed.toList(),
       ),
     );
   }
 
   Widget _buildRestaurantInfo() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
       child: Column(
@@ -458,9 +488,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.green.shade50,
+                          color: isDark ? Colors.green.withOpacity(0.1) : Colors.green.shade50,
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: Colors.green.shade200),
+                          border: Border.all(color: isDark ? Colors.green.withOpacity(0.3) : Colors.green.shade200),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -501,20 +531,21 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         Expanded(
                           child: Text(
                             widget.restaurant.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w900,
                               letterSpacing: -0.5,
+                              color: isDark ? Colors.white : Colors.black,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           Icons.info_outline,
                           size: 18,
-                          color: Colors.black54,
+                          color: isDark ? Colors.white54 : Colors.black54,
                         ),
                       ],
                     ),
@@ -548,11 +579,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
+                  Text(
                     'By 6.6K+',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Colors.grey,
+                      color: isDark ? Colors.white38 : Colors.grey,
                       decoration: TextDecoration.underline,
                       decorationStyle: TextDecorationStyle.dashed,
                     ),
@@ -563,29 +594,29 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           ),
           const SizedBox(height: 12),
           Row(
-            children: const [
-              Icon(Icons.location_on_outlined, size: 16, color: Colors.black54),
-              SizedBox(width: 4),
+            children: [
+              Icon(Icons.location_on_outlined, size: 16, color: isDark ? Colors.white54 : Colors.black54),
+              const SizedBox(width: 4),
               Text(
                 '1 km • Mira Road',
-                style: TextStyle(fontSize: 13, color: Colors.black87),
+                style: TextStyle(fontSize: 13, color: isDark ? Colors.white70 : Colors.black87),
               ),
-              Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.black54),
+              Icon(Icons.keyboard_arrow_down, size: 16, color: isDark ? Colors.white54 : Colors.black54),
             ],
           ),
           const SizedBox(height: 4),
           Row(
             children: [
-              const Icon(Icons.access_time, size: 16, color: Colors.black54),
+              Icon(Icons.access_time, size: 16, color: isDark ? Colors.white54 : Colors.black54),
               const SizedBox(width: 4),
               Text(
                 '${widget.restaurant.time} • Schedule for later',
-                style: const TextStyle(fontSize: 13, color: Colors.black87),
+                style: TextStyle(fontSize: 13, color: isDark ? Colors.white70 : Colors.black87),
               ),
-              const Icon(
+              Icon(
                 Icons.keyboard_arrow_down,
                 size: 16,
-                color: Colors.black54,
+                color: isDark ? Colors.white54 : Colors.black54,
               ),
             ],
           ),
@@ -593,17 +624,21 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.check, color: Colors.green, size: 16),
-                SizedBox(width: 4),
+              children: [
+                const Icon(Icons.check, color: Colors.green, size: 16),
+                const SizedBox(width: 4),
                 Text(
                   'Frequently reordered',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 12, 
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
                 ),
               ],
             ),
@@ -614,6 +649,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   }
 
   Widget _buildOfferRow() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () {
         HapticFeedback.lightImpact();
@@ -632,9 +668,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   Expanded(
                     child: Text(
                       widget.restaurant.offer,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
+                        color: isDark ? Colors.white : Colors.black,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -648,13 +685,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               children: [
                 Text(
                   '${widget.restaurant.offers.length} offers',
-                  style: const TextStyle(
-                    color: Colors.grey,
+                  style: TextStyle(
+                    color: isDark ? Colors.white54 : Colors.grey,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Icon(Icons.keyboard_arrow_down, color: Colors.grey, size: 16),
+                Icon(Icons.keyboard_arrow_down, color: isDark ? Colors.white54 : Colors.grey, size: 16),
               ],
             ),
           ],
@@ -664,10 +701,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   }
 
   void _showOffersBottomSheet(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent, // Let Container define the top radius
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: 0.8,
@@ -676,34 +714,32 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 50),
-                decoration: const BoxDecoration(
-                  color: Colors.white, // White background
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                decoration: BoxDecoration(
+                  color: AppColors.card(context),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Header
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                      decoration: BoxDecoration(
+                        color: AppColors.card(context),
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                       ),
                       child: Text(
                         'Offers at ${widget.restaurant.name}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
-                          color: Color(0xFF1E1E2C), // Dark blueish grey
+                          color: isDark ? Colors.white : const Color(0xFF1E1E2C),
                         ),
                       ),
                     ),
-                    const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE)),
-                    // Scrollable content
+                    Divider(height: 1, thickness: 1, color: isDark ? Colors.white10 : AppColors.border),
                     Expanded(
                       child: Container(
-                        color: const Color(0xFFF7F7FA), // Light grey background for the list
+                        color: isDark ? Colors.black.withOpacity(0.05) : AppColors.surface,
                         child: ListView(
                           padding: const EdgeInsets.all(16),
                           children: [
@@ -728,7 +764,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF333333).withOpacity(0.9),
+                        color: isDark ? Colors.white12 : const Color(0xFF333333).withOpacity(0.9),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.close, color: Colors.white, size: 20),
@@ -745,16 +781,17 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 
   Widget _buildOffersSection(String title, List<RestaurantOffer> offers) {
     if (offers.isEmpty) return const SizedBox.shrink();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF1E1E2C),
+            color: isDark ? Colors.white : const Color(0xFF1E1E2C),
           ),
         ),
         const SizedBox(height: 16),
@@ -767,9 +804,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
     );
   }
 
-
-
-Widget _buildFiltersRow() {
+  Widget _buildFiltersRow() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -799,28 +834,33 @@ Widget _buildFiltersRow() {
     bool isDropdown = false,
     Color? iconColor,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: iconColor ?? Colors.black54),
+          Icon(icon, size: 16, color: iconColor ?? (isDark ? Colors.white70 : Colors.black54)),
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              fontSize: 13, 
+              fontWeight: FontWeight.w500,
+              color: isDark ? Colors.white70 : Colors.black87,
+            ),
           ),
           if (isDropdown) ...[
             const SizedBox(width: 4),
-            const Icon(
+            Icon(
               Icons.keyboard_arrow_down,
               size: 16,
-              color: Colors.black54,
+              color: isDark ? Colors.white54 : Colors.black54,
             ),
           ],
         ],
@@ -843,6 +883,7 @@ class DishItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
       child: Row(
@@ -878,25 +919,27 @@ class DishItemWidget extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   dish.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   '₹${dish.price}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
+                    color: isDark ? Colors.white : Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   dish.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: Colors.grey,
+                    color: isDark ? Colors.white38 : Colors.grey,
                     height: 1.4,
                   ),
                   maxLines: 2,
@@ -905,24 +948,40 @@ class DishItemWidget extends StatelessWidget {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey.shade300),
+                    InkWell(
+                      onTap: () {
+                        bookmarkManager.toggleDishBookmark(dish.id);
+                      },
+                      borderRadius: BorderRadius.circular(20),
+                      child: ListenableBuilder(
+                        listenable: bookmarkManager,
+                        builder: (context, _) {
+                          final isBookmarked = bookmarkManager.isDishBookmarked(dish.id);
+                          return Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
+                            ),
+                            child: Icon(
+                              isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                              size: 16,
+                              color: isBookmarked ? AppColors.primary : (isDark ? Colors.white54 : Colors.black54),
+                            ),
+                          );
+                        },
                       ),
-                      child: const Icon(Icons.bookmark_border, size: 16),
                     ),
                     const SizedBox(width: 12),
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                       ),
-                      child: const Icon(Icons.share_outlined, size: 16),
+                      child: Icon(Icons.share_outlined, size: 16, color: isDark ? Colors.white54 : Colors.black54),
                     ),
                   ],
                 ),
@@ -945,12 +1004,12 @@ class DishItemWidget extends StatelessWidget {
                         width: double.infinity,
                         child: dish.imageUrl.isEmpty
                             ? Container(
-                                color: Colors.grey.shade200,
+                                color: isDark ? Colors.white10 : Colors.grey.shade200,
                                 alignment: Alignment.center,
                                 child: Icon(
                                   Icons.restaurant,
                                   size: 40,
-                                  color: Colors.grey.shade400,
+                                  color: isDark ? Colors.white24 : Colors.grey.shade400,
                                 ),
                               )
                             : Image.network(
@@ -958,12 +1017,12 @@ class DishItemWidget extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
-                                    color: Colors.grey.shade200,
+                                    color: isDark ? Colors.white10 : Colors.grey.shade200,
                                     alignment: Alignment.center,
                                     child: Icon(
                                       Icons.restaurant,
                                       size: 40,
-                                      color: Colors.grey.shade400,
+                                      color: isDark ? Colors.white24 : Colors.grey.shade400,
                                     ),
                                   );
                                 },
@@ -974,9 +1033,9 @@ class DishItemWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   'customisable',
-                  style: TextStyle(fontSize: 11, color: Colors.grey),
+                  style: TextStyle(fontSize: 11, color: isDark ? Colors.white38 : Colors.grey),
                 ),
               ],
             ),
@@ -994,8 +1053,8 @@ class DishItemWidget extends StatelessWidget {
           width: 90,
           height: 36,
           decoration: BoxDecoration(
-            color: const Color(0xFFE8F4E9),
-            border: Border.all(color: const Color(0xFF1F803A)),
+            color: AppColors.primaryLight,
+            border: Border.all(color: AppColors.primary),
             borderRadius: BorderRadius.circular(8),
           ),
           alignment: Alignment.center,
@@ -1005,13 +1064,13 @@ class DishItemWidget extends StatelessWidget {
               Text(
                 'ADD',
                 style: TextStyle(
-                  color: Color(0xFF1F803A),
+                  color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
               SizedBox(width: 4),
-              Icon(Icons.add, color: Color(0xFF1F803A), size: 16),
+              Icon(Icons.add, color: AppColors.primary, size: 16),
             ],
           ),
         ),
@@ -1021,8 +1080,8 @@ class DishItemWidget extends StatelessWidget {
         width: 90,
         height: 36,
         decoration: BoxDecoration(
-          color: const Color(0xFFE8F4E9),
-          border: Border.all(color: const Color(0xFF1F803A)),
+          color: AppColors.primaryLight,
+          border: Border.all(color: AppColors.primary),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -1032,13 +1091,13 @@ class DishItemWidget extends StatelessWidget {
               onTap: () => onQuantityChanged(quantity - 1),
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Icon(Icons.remove, color: Color(0xFF1F803A), size: 18),
+                child: Icon(Icons.remove, color: AppColors.primary, size: 18),
               ),
             ),
             Text(
               '$quantity',
               style: const TextStyle(
-                color: Color(0xFF1F803A),
+                color: AppColors.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -1047,7 +1106,7 @@ class DishItemWidget extends StatelessWidget {
               onTap: () => onQuantityChanged(quantity + 1),
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Icon(Icons.add, color: Color(0xFF1F803A), size: 18),
+                child: Icon(Icons.add, color: AppColors.primary, size: 18),
               ),
             ),
           ],
@@ -1056,7 +1115,6 @@ class DishItemWidget extends StatelessWidget {
     }
   }
 }
-
 
 class _OfferItemWidget extends StatefulWidget {
   final RestaurantOffer offer;
@@ -1071,12 +1129,13 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200, width: 1.5),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade200, width: 1.5),
       ),
       child: Column(
         children: [
@@ -1093,27 +1152,25 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Icon
                   Container(
                     margin: const EdgeInsets.only(top: 2),
                     child: Icon(
                       widget.offer.type == 'gold' ? Icons.workspace_premium : Icons.discount,
-                      color: widget.offer.type == 'gold' ? const Color(0xFFD4AF37) : Colors.blue.shade600, // Gold or blue
+                      color: widget.offer.type == 'gold' ? const Color(0xFFD4AF37) : Colors.blue.shade600,
                       size: 20,
                     ),
                   ),
                   const SizedBox(width: 12),
-                  // Content
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.offer.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
-                            color: Color(0xFF1E1E2C),
+                            color: isDark ? Colors.white : const Color(0xFF1E1E2C),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -1121,7 +1178,7 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                           Text(
                             'No code required',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white38 : Colors.grey.shade600,
                               fontSize: 13,
                             ),
                           ),
@@ -1142,8 +1199,8 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                         ] else ...[
                           Text(
                             widget.offer.description,
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            style: TextStyle(
+                              color: isDark ? Colors.white38 : Colors.grey,
                               fontSize: 13,
                             ),
                           ),
@@ -1151,7 +1208,7 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
+                              border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -1160,7 +1217,7 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
                                 letterSpacing: 0.5,
-                                color: Colors.grey.shade800,
+                                color: isDark ? Colors.white70 : Colors.grey.shade800,
                               ),
                             ),
                           ),
@@ -1170,7 +1227,7 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                   ),
                   Icon(
                     _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                    color: Colors.grey,
+                    color: isDark ? Colors.white38 : Colors.grey,
                     size: 20,
                   ),
                 ],
@@ -1181,7 +1238,6 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               height: 1,
-              color: Colors.transparent, // Create a dashed line effect using a CustomPaint if needed, or a simple divider
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   final boxWidth = constraints.constrainWidth();
@@ -1196,7 +1252,7 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
                         width: dashWidth,
                         height: dashHeight,
                         child: DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.grey.shade300),
+                          decoration: BoxDecoration(color: isDark ? Colors.white10 : Colors.grey.shade300),
                         ),
                       );
                     }),
@@ -1223,19 +1279,20 @@ class _OfferItemWidgetState extends State<_OfferItemWidget> {
   }
 
   Widget _buildTermRow(String text) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           margin: const EdgeInsets.only(top: 2),
-          child: const Icon(Icons.check_circle, color: Color(0xFF1F803A), size: 16),
+          child: const Icon(Icons.check_circle, color: AppColors.primary, size: 16),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
             style: TextStyle(
-              color: Colors.grey.shade700,
+              color: isDark ? Colors.white54 : Colors.grey.shade700,
               fontSize: 13,
             ),
           ),

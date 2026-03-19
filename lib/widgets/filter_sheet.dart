@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import '../models/filter_options.dart';
 import 'selectable_box_option.dart';
 import 'schedule_bottom_sheet.dart';
@@ -648,7 +649,7 @@ class _FilterSheetState extends State<FilterSheet> {
               onPressed: () => Navigator.pop(context),
               child: const Text(
                 'Close',
-                style: TextStyle(color: Colors.black87, fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ),

@@ -22,10 +22,10 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Dial Audio Call'),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
       body: Padding(
@@ -41,7 +41,7 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
             const Text(
               "Share this ID with the other device so they can call you.",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black54),
+              style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 40),
             TextField(
@@ -71,7 +71,7 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
               buttonSize: const Size(60, 60),
             ),
             const SizedBox(height: 10),
-            const Text("Tap to Ring", style: TextStyle(color: Colors.black54)),
+            const Text("Tap to Ring", style: TextStyle(fontSize: 14)),
           ],
         ),
       ),

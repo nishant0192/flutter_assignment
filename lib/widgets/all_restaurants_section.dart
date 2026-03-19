@@ -33,8 +33,7 @@ class AllRestaurantsSection extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
-              color: Colors.black87,
-            ),
+              ),
           ),
         ),
         ListView.builder(

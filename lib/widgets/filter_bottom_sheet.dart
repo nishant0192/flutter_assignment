@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import '../models/filter_options.dart';
+import 'primary_button.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   int _selectedIndex = 0;
 
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _leftScrollController = ScrollController();
   final GlobalKey _scrollContainerKey = GlobalKey();
   late List<GlobalKey> _sectionKeys;
   bool _isAutoScrolling = false;
@@ -46,40 +49,70 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
+    _leftScrollController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
     if (_isAutoScrolling) return;
 
-    if (_scrollController.hasClients && _scrollController.offset <= 10) {
-      if (_selectedIndex != 0) {
-        setState(() {
-          _selectedIndex = 0;
-        });
+    if (_scrollController.hasClients) {
+      // Check if we are at the bottom
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent - 20) {
+        if (_selectedIndex != _filterCategories.length - 1) {
+          setState(() {
+            _selectedIndex = _filterCategories.length - 1;
+            _syncLeftRail(6);
+          });
+        }
+        return;
       }
-      return;
-    }
 
-    final scrollBox =
-        _scrollContainerKey.currentContext?.findRenderObject() as RenderBox?;
-    if (scrollBox == null) return;
+      if (_scrollController.offset <= 10) {
+        if (_selectedIndex != 0) {
+          setState(() {
+            _selectedIndex = 0;
+            _syncLeftRail(0);
+          });
+        }
+        return;
+      }
 
-    for (int i = _sectionKeys.length - 1; i >= 0; i--) {
-      final key = _sectionKeys[i];
-      if (key.currentContext != null) {
-        final RenderBox box =
-            key.currentContext!.findRenderObject() as RenderBox;
-        final offset = box.localToGlobal(Offset.zero, ancestor: scrollBox);
-        if (offset.dy <= 100) {
-          if (_selectedIndex != i) {
-            setState(() {
-              _selectedIndex = i;
-            });
+      final scrollBox =
+          _scrollContainerKey.currentContext?.findRenderObject() as RenderBox?;
+      if (scrollBox == null) return;
+
+      for (int i = _sectionKeys.length - 1; i >= 0; i--) {
+        final key = _sectionKeys[i];
+        if (key.currentContext != null) {
+          final RenderBox box =
+              key.currentContext!.findRenderObject() as RenderBox;
+          final offset = box.localToGlobal(Offset.zero, ancestor: scrollBox);
+          if (offset.dy <= 120) {
+            if (_selectedIndex != i) {
+              setState(() {
+                _selectedIndex = i;
+                _syncLeftRail(i);
+              });
+            }
+            break;
           }
-          break;
         }
       }
+    }
+  }
+
+  void _syncLeftRail(int index) {
+    if (_leftScrollController.hasClients) {
+      final itemHeight = 72.0; // Approximation of item height
+      final viewHeight = MediaQuery.of(context).size.height * 0.6;
+      final targetOffset = (index * itemHeight) - (viewHeight / 3);
+      
+      _leftScrollController.animateTo(
+        targetOffset.clamp(0.0, _leftScrollController.position.maxScrollExtent),
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
     }
   }
 
@@ -120,10 +153,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: AppColors.card(context),
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -140,13 +174,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Filters and sorting',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                    color: isDark ? Colors.white : Colors.black87,
+                    ),
                 ),
                 GestureDetector(
                   onTap: _clearAll,
@@ -162,26 +196,27 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
+          const Divider(height: 1, color: AppColors.border),
           // Body (Left Rail + Right Content)
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Left Rail (White)
+                // Left Rail
                 Container(
                   width: 90,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.card(context),
                     border: Border(
                       right: BorderSide(
-                        color: Colors.grey.shade300,
+                        color: isDark ? Colors.white10 : Colors.grey.shade300,
                         width: 1.0,
                       ),
                     ),
                   ),
                   child: ListView.builder(
+                    controller: _leftScrollController,
                     itemCount: _filterCategories.length,
                     itemBuilder: (context, index) {
                       final isSelected = _selectedIndex == index;
@@ -193,7 +228,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? const Color(0xFFF1FDF5)
+                                    ? (isDark ? Colors.white.withOpacity(0.05) : const Color(0xFFF1FDF5))
                                     : Colors.transparent,
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -203,8 +238,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (index ==
-                                      0) // Sort By icon placeholder if you want
+                                  if (index == 0)
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         bottom: 4.0,
@@ -214,7 +248,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 1)
@@ -227,7 +261,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 2)
@@ -240,7 +274,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 3)
@@ -253,7 +287,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 4)
@@ -266,7 +300,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 5)
@@ -279,7 +313,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   if (index == 6)
@@ -292,7 +326,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         size: 16,
                                         color: isSelected
                                             ? Colors.green
-                                            : Colors.grey,
+                                            : (isDark ? Colors.white38 : Colors.grey),
                                       ),
                                     ),
                                   Text(
@@ -305,7 +339,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                           : FontWeight.w500,
                                       color: isSelected
                                           ? Colors.green
-                                          : Colors.black87,
+                                          : (isDark ? Colors.white70 : Colors.black87),
                                     ),
                                   ),
                                 ],
@@ -331,7 +365,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 Expanded(
                   child: Container(
                     key: _scrollContainerKey,
-                    color: Colors.white,
+                    color: AppColors.card(context),
                     child: SingleChildScrollView(
                       controller: _scrollController,
                       padding: const EdgeInsets.only(
@@ -427,9 +461,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             ),
           ),
           // Footer
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
+          const Divider(height: 1, color: AppColors.border),
           Container(
-            color: Colors.white,
+            color: AppColors.card(context),
             padding: const EdgeInsets.only(
               left: 16.0,
               right: 16.0,
@@ -442,11 +476,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.black87,
+                      foregroundColor: isDark ? Colors.white70 : Colors.black87,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: Colors.grey.shade300),
+                        side: BorderSide(color: isDark ? Colors.white10 : Colors.grey.shade300),
                       ),
                     ),
                     child: const Text(
@@ -460,26 +494,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: ElevatedButton(
+                  child: PrimaryButton(
                     onPressed: () {
                       Navigator.pop(context, FilterOptions());
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Show results',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    label: 'Show results',
+                    borderRadius: 12,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
               ],
@@ -504,10 +525,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       (opt) => opt['val'] == _sortBy,
     )['label']!;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       key: _sectionKeys[index],
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F6F8),
+        color: isDark ? Colors.white.withOpacity(0.03) : const Color(0xFFF5F6F8),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -523,13 +546,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Sort by',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                      color: isDark ? Colors.white : Colors.black87,
+                      ),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -563,7 +586,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   child: Column(
                     children: [
                       for (int i = 0; i < sortOptions.length; i++) ...[
@@ -575,7 +598,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           },
                           child: Container(
                             color: _sortBy == sortOptions[i]['val']
-                                ? const Color(0xFFF1FDF5)
+                                ? (isDark ? Colors.white.withOpacity(0.05) : const Color(0xFFF1FDF5))
                                 : Colors.transparent,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -588,10 +611,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                   sortOptions[i]['label']!,
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Colors.black87,
                                     fontWeight: _sortBy == sortOptions[i]['val']
                                         ? FontWeight.w500
                                         : FontWeight.w400,
+                                    color: isDark ? Colors.white : Colors.black87,
                                   ),
                                 ),
                                 Icon(
@@ -600,7 +623,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                       : Icons.radio_button_off,
                                   color: _sortBy == sortOptions[i]['val']
                                       ? Colors.green
-                                      : Colors.grey.shade400,
+                                      : (isDark ? Colors.white24 : Colors.grey.shade400),
                                   size: 20,
                                 ),
                               ],
@@ -608,7 +631,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           ),
                         ),
                         if (i < sortOptions.length - 1)
-                          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                          Divider(height: 1, color: isDark ? Colors.white10 : const Color(0xFFF0F0F0)),
                       ],
                     ],
                   ),
@@ -626,11 +649,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     List<_OptionItem> options,
     Set<String> selectedSet,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       key: _sectionKeys[index],
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F6F8),
+        color: isDark ? Colors.white.withOpacity(0.03) : const Color(0xFFF5F6F8),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -638,11 +662,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
+              color: isDark ? Colors.white : Colors.black87,
+              ),
           ),
           const SizedBox(height: 12),
           LayoutBuilder(
@@ -670,7 +694,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         vertical: 16,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.card(context),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected ? Colors.green : Colors.transparent,
@@ -678,7 +702,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.05),
+                            color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.05),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -696,7 +720,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 12,
-                              color: isSelected ? Colors.green : Colors.black87,
+                              color: isSelected ? Colors.green : (isDark ? Colors.white70 : Colors.black87),
                               fontWeight: isSelected
                                   ? FontWeight.w600
                                   : FontWeight.w500,
@@ -721,11 +745,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     List<_OptionItem> options,
     Set<String> selectedSet,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       key: _sectionKeys[index],
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F6F8),
+        color: isDark ? Colors.white.withOpacity(0.03) : const Color(0xFFF5F6F8),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -733,11 +758,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
+              color: isDark ? Colors.white : Colors.black87,
+              ),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -761,10 +786,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     vertical: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.card(context),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isSelected ? Colors.green : Colors.grey.shade300,
+                      color: isSelected ? Colors.green : (isDark ? Colors.white10 : Colors.grey.shade300),
                       width: 1,
                     ),
                   ),
@@ -779,7 +804,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         opt.label,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isSelected ? Colors.green : Colors.black87,
+                          color: isSelected ? Colors.green : (isDark ? Colors.white70 : Colors.black87),
                           fontWeight: isSelected
                               ? FontWeight.w600
                               : FontWeight.w400,

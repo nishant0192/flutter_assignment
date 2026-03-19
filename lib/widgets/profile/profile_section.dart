@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_constants.dart';
 
 class ProfileSectionContainer extends StatelessWidget {
   final String title;
@@ -14,8 +15,15 @@ class ProfileSectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,10 +46,10 @@ class ProfileSectionContainer extends StatelessWidget {
                 const SizedBox(width: 12),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E3333),
+                    color: Theme.of(context).textTheme.bodyLarge?.color ?? const Color(0xFF2E3333),
                   ),
                 ),
               ],

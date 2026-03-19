@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../models/app_data.dart';
@@ -31,6 +32,8 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       width: width,
       margin:
@@ -41,31 +44,37 @@ class RestaurantCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Container(
-                  height: imageHeight,
-                  width: double.infinity,
-                  color: Colors.grey.shade300,
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(color: Colors.white),
-                    ),
-                    errorWidget: (context, url, error) => CachedNetworkImage(
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+              // Image with dark-mode border + shadow for contrast
+              Container(
+                height: imageHeight,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Container(
+                    color: Colors.grey.shade300,
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
                       fit: BoxFit.cover,
-                      errorWidget: (context, url, error) => Container(
-                        color: Colors.grey.shade200,
-                        child: Center(
-                          child: Icon(
-                            Icons.restaurant,
-                            size: 48,
-                            color: Colors.grey.shade400,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(color: Colors.white),
+                      ),
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.grey.shade200,
+                          child: Center(
+                            child: Icon(
+                              Icons.restaurant,
+                              size: 48,
+                              color: Colors.grey.shade400,
+                            ),
                           ),
                         ),
                       ),
@@ -80,7 +89,7 @@ class RestaurantCard extends StatelessWidget {
                   constraints: BoxConstraints(
                     maxWidth: width != null
                         ? width! * 0.9
-                        : 200, // Fallback if width not provided
+                        : 200,
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -116,7 +125,7 @@ class RestaurantCard extends StatelessWidget {
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Row(
@@ -141,7 +150,11 @@ class RestaurantCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             name,
-            style: TextStyle(fontSize: titleSize, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: titleSize,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

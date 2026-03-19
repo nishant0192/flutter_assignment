@@ -11,31 +11,43 @@ class TwoActionButtons extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF1E1E1E) : Colors.white,
               borderRadius: BorderRadius.circular(12),
+              boxShadow: Theme.of(context).brightness == Brightness.dark
+                  ? null
+                  : [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
             ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.grey.shade100,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.account_balance_wallet_outlined,
                     size: 20,
-                    color: Colors.black54,
+                    color: Theme.of(context).iconTheme.color?.withOpacity(0.6) ?? Colors.black54,
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Zomato Money',
-                        style: TextStyle(fontSize: 13),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
@@ -58,7 +70,7 @@ class TwoActionButtons extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -66,20 +78,23 @@ class TwoActionButtons extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.grey.shade100,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.local_offer_outlined,
                     size: 20,
-                    color: Colors.black54,
+                    color: Theme.of(context).iconTheme.color?.withOpacity(0.6) ?? Colors.black54,
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Your coupons',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import '../models/address_model.dart';
 import '../services/location_service.dart';
 
@@ -61,19 +62,19 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.black),
+          icon: Icon(Icons.close, color: isDark ? Colors.white : Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Select a location',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -85,9 +86,9 @@ class _LocationScreenState extends State<LocationScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: AppColors.card(context),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
               ),
               child: TextField(
                 controller: _searchController,
@@ -95,8 +96,8 @@ class _LocationScreenState extends State<LocationScreen> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Search for area, street name...',
-                  hintStyle: TextStyle(color: Colors.grey.shade500),
-                  prefixIcon: const Icon(Icons.search, color: Colors.red),
+                  hintStyle: TextStyle(color: isDark ? Colors.white38 : Colors.grey.shade500),
+                  prefixIcon: const Icon(Icons.search, color: Colors.green), // Changed to green for consistency
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -104,7 +105,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   suffixIcon: _searchController.text.isNotEmpty
                       ? IconButton(
-                          icon: const Icon(Icons.clear, color: Colors.grey),
+                          icon: Icon(Icons.clear, color: isDark ? Colors.white38 : Colors.grey),
                           onPressed: () {
                             _searchController.clear();
                             _onSearchChanged('');
@@ -119,31 +120,31 @@ class _LocationScreenState extends State<LocationScreen> {
           Expanded(
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: Colors.red),
+                    child: CircularProgressIndicator(color: Colors.green),
                   )
                 : _results.isEmpty && _searchController.text.isNotEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
                       'No results found',
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: isDark ? Colors.white38 : Colors.grey),
                     ),
                   )
                 : ListView.separated(
                     itemCount: _results.length,
                     separatorBuilder: (context, index) =>
-                        Divider(color: Colors.grey.shade200, height: 1),
+                        Divider(color: isDark ? Colors.white10 : Colors.grey.shade200, height: 1),
                     itemBuilder: (context, index) {
                       final address = _results[index];
                       return ListTile(
                         leading: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                            color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
                             Icons.location_on_outlined,
-                            color: Colors.red,
+                            color: Colors.green, // Changed to green
                           ),
                         ),
                         title: Text(
@@ -158,7 +159,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         subtitle: Text(
                           address.subtitle,
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: isDark ? Colors.white70 : Colors.grey.shade600,
                             fontSize: 13,
                           ),
                           maxLines: 2,

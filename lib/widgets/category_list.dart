@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/app_data.dart';
@@ -89,14 +90,14 @@ class _CategoryListState extends State<CategoryList> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 16),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                  decoration: BoxDecoration(
+                    color: AppColors.card(context),
+                    borderRadius: const BorderRadius.all(Radius.circular(24)),
                   ),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
+                      Padding(
+                        padding: const EdgeInsets.only(
                           left: 16.0,
                           top: 24.0,
                           bottom: 12.0,
@@ -104,11 +105,11 @@ class _CategoryListState extends State<CategoryList> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'What\'s on your mind?',
+                            "What's on your mind?",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                           ),
                         ),
@@ -141,9 +142,9 @@ class _CategoryListState extends State<CategoryList> {
                                       AspectRatio(
                                         aspectRatio: 1,
                                         child: Container(
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Colors.white,
+                                            color: AppColors.card(context),
                                           ),
                                           clipBehavior: Clip.antiAlias,
                                           child: CachedNetworkImage(
@@ -166,10 +167,10 @@ class _CategoryListState extends State<CategoryList> {
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
-                                            color: Colors.black87,
+                                            color: Theme.of(context).textTheme.bodyMedium?.color,
                                           ),
                                         ),
                                       ),
@@ -195,6 +196,8 @@ class _CategoryListState extends State<CategoryList> {
       return const CategoryListSkeleton();
     }
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SizedBox(
       height: 100,
       child: SingleChildScrollView(
@@ -203,7 +206,9 @@ class _CategoryListState extends State<CategoryList> {
         child: Container(
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Colors.grey.shade300, width: 1.0),
+              bottom: BorderSide(
+                  color: isDark ? Colors.white10 : Colors.grey.shade300,
+                  width: 1.0),
             ),
           ),
           child: Row(
@@ -265,24 +270,24 @@ class _CategoryListState extends State<CategoryList> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: isSelected ? Colors.green : Colors.transparent,
+                        color: isSelected ? AppColors.primary : Colors.transparent,
                         width: isSelected ? 3.0 : 0.0,
                       ),
                     ),
                   ),
-                  padding: const EdgeInsets.only(
-                    bottom: 4,
-                  ), // Padding to space out the green border
+                  padding: const EdgeInsets.only(bottom: 4),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (cat['name'] == 'See all')
                         CircleAvatar(
                           radius: 30,
-                          backgroundColor: Colors.green.shade50,
+                          backgroundColor: isDark
+                              ? AppColors.primary.withOpacity(0.15)
+                              : Colors.green.shade50,
                           child: Icon(
                             Icons.restaurant,
-                            color: Colors.green.shade800,
+                            color: AppColors.primary,
                           ),
                         )
                       else
@@ -291,7 +296,6 @@ class _CategoryListState extends State<CategoryList> {
                           height: 60,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: CachedNetworkImage(
@@ -315,8 +319,8 @@ class _CategoryListState extends State<CategoryList> {
                               ? FontWeight.bold
                               : FontWeight.w500,
                           color: isSelected
-                              ? Colors.black
-                              : Colors.grey.shade700,
+                              ? Theme.of(context).textTheme.bodyLarge?.color
+                              : Colors.grey.shade600,
                         ),
                       ),
                     ],

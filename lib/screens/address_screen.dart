@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart' ;
 import '../models/address_model.dart';
 import 'add_edit_address_screen.dart';
 import 'location_screen.dart';
@@ -8,19 +9,19 @@ class AddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8), // Light greyish-blue background
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F6F8),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.black, size: 32),
+          icon: Icon(Icons.close, color: isDark ? Colors.white : Colors.black, size: 32),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Select a location',
           style: TextStyle(
-            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -36,9 +37,9 @@ class AddressScreen extends StatelessWidget {
               // Search Bar
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
                 ),
                 child: TextField(
                   readOnly: true,
@@ -57,7 +58,7 @@ class AddressScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Search for area, street name...',
                     hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
+                      color: isDark ? Colors.white38 : Colors.grey.shade600,
                       fontSize: 16,
                     ),
                     prefixIcon: const Icon(
@@ -75,12 +76,13 @@ class AddressScreen extends StatelessWidget {
               // Action Card
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
                     _buildActionTile(
+                      context,
                       icon: Icons.my_location,
                       iconColor: Colors.green,
                       title: 'Use current location',
@@ -102,9 +104,10 @@ class AddressScreen extends StatelessWidget {
                     Divider(
                       height: 1,
                       thickness: 1,
-                      color: Colors.grey.shade100,
+                      color: isDark ? Colors.white10 : Colors.grey.shade100,
                     ),
                     _buildActionTile(
+                      context,
                       icon: Icons.add,
                       iconColor: Colors.green,
                       title: 'Add Address',
@@ -129,7 +132,7 @@ class AddressScreen extends StatelessWidget {
               Text(
                 'SAVED ADDRESSES',
                 style: TextStyle(
-                  color: Colors.grey.shade600,
+                  color: isDark ? Colors.white60 : Colors.grey.shade600,
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.2,
@@ -187,7 +190,8 @@ class AddressScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionTile({
+  Widget _buildActionTile(
+    BuildContext context, {
     required IconData icon,
     required Color iconColor,
     required String title,
@@ -195,6 +199,7 @@ class AddressScreen extends StatelessWidget {
     String? subtitle,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
@@ -224,7 +229,7 @@ class AddressScreen extends StatelessWidget {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: isDark ? Colors.white60 : Colors.grey.shade600,
                         fontSize: 13,
                         height: 1.3,
                       ),
@@ -234,7 +239,7 @@ class AddressScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 24),
+            Icon(Icons.chevron_right, color: isDark ? Colors.white24 : Colors.grey.shade400, size: 24),
           ],
         ),
       ),
@@ -249,10 +254,11 @@ class AddressScreen extends StatelessWidget {
     required String address,
     String? phone,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -267,13 +273,13 @@ class AddressScreen extends StatelessWidget {
                     : type.toLowerCase() == 'work'
                     ? Icons.work_outline
                     : Icons.location_on_outlined,
-                color: Colors.black87,
+                color: isDark ? Colors.white70 : Colors.black87,
                 size: 24,
               ),
               const SizedBox(height: 4),
               Text(
                 distance,
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+                style: TextStyle(color: isDark ? Colors.white60 : Colors.grey.shade600, fontSize: 11),
               ),
             ],
           ),
@@ -294,7 +300,7 @@ class AddressScreen extends StatelessWidget {
                 Text(
                   address,
                   style: TextStyle(
-                    color: Colors.grey.shade700,
+                    color: isDark ? Colors.white70 : Colors.grey.shade700,
                     fontSize: 14,
                     height: 1.4,
                   ),
@@ -303,19 +309,21 @@ class AddressScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     phone,
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                    style: TextStyle(color: isDark ? Colors.white60 : Colors.grey.shade600, fontSize: 13),
                   ),
                 ],
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     _buildIconButton(
+                      context,
                       Icons.more_horiz,
                       onTap: () =>
                           _showAddressOptionsSheet(context, addressModel),
                     ),
                     const SizedBox(width: 16),
                     _buildIconButton(
+                      context,
                       Icons.turn_right,
                     ), // Used as a share/forward icon
                   ],
@@ -328,7 +336,8 @@ class AddressScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton(IconData icon, {VoidCallback? onTap}) {
+  Widget _buildIconButton(BuildContext context, IconData icon, {VoidCallback? onTap}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
@@ -336,7 +345,7 @@ class AddressScreen extends StatelessWidget {
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade300),
         ),
         child: Icon(icon, size: 18, color: Colors.green),
       ),
@@ -348,6 +357,7 @@ class AddressScreen extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -357,22 +367,22 @@ class AddressScreen extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: AppColors.card(context),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_downward,
-                  color: Colors.black,
+                  color: isDark ? Colors.white : Colors.black,
                   size: 24,
                 ),
               ),
             ),
             // The Bottom Sheet Content
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: AppColors.card(context),
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
@@ -382,9 +392,9 @@ class AddressScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
-                      leading: const Icon(
+                      leading: Icon(
                         Icons.edit_outlined,
-                        color: Colors.black87,
+                        color: isDark ? Colors.white70 : Colors.black87,
                       ),
                       title: const Text(
                         'Edit Address',
@@ -405,7 +415,7 @@ class AddressScreen extends StatelessWidget {
                     Divider(
                       height: 1,
                       thickness: 1,
-                      color: Colors.grey.shade200,
+                      color: isDark ? Colors.white10 : Colors.grey.shade200,
                     ),
                     ListTile(
                       leading: const Icon(

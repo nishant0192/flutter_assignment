@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_constants.dart' ;
 import '../../models/user_profile.dart';
 import '../../screens/gold_screen.dart';
 import '../../screens/edit_profile_screen.dart';
@@ -25,13 +26,7 @@ class ProfileCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [Color(0xFF28292D), Color(0xFF1E1E22)],
             ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
+            boxShadow: null,
           ),
           child: Column(
             children: [

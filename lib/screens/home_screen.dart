@@ -20,6 +20,7 @@ import '../utils/responsive.dart';
 import '../utils/app_constants.dart';
 import 'checkout_screen.dart';
 import 'restaurant_details_screen.dart';
+import '../widgets/primary_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen>
   String _searchQuery = '';
   bool _isBottomNavVisible = true;
   bool _showRemoveCart = false;
+  static bool _hasLoadedOnce = false;
 
   @override
   void initState() {
@@ -46,20 +48,29 @@ class _HomeScreenState extends State<HomeScreen>
       _loadRestaurants();
     });
   }
-
   Future<void> _loadRestaurants() async {
     try {
-      // Load data and show skeleton for at least 1500ms so users see the shimmer
-      final results = await Future.wait([
-        rootBundle.loadString('assets/data/restaurants.json'),
-        Future.delayed(const Duration(milliseconds: 1500)),
-      ]);
-      final String response = results[0] as String;
-      final List<dynamic> data = json.decode(response);
-      setState(() {
-        _restaurants = data.map((json) => Restaurant.fromJson(json)).toList();
-        _isLoading = false;
-      });
+      // Only show skeleton for at least 1500ms on the FIRST load
+      if (!_hasLoadedOnce) {
+        final results = await Future.wait([
+          rootBundle.loadString('assets/data/restaurants.json'),
+          Future.delayed(const Duration(milliseconds: 1500)),
+        ]);
+        final String response = results[0] as String;
+        final List<dynamic> data = json.decode(response);
+        setState(() {
+          _restaurants = data.map((json) => Restaurant.fromJson(json)).toList();
+          _isLoading = false;
+          _hasLoadedOnce = true;
+        });
+      } else {
+        final String response = await rootBundle.loadString('assets/data/restaurants.json');
+        final List<dynamic> data = json.decode(response);
+        setState(() {
+          _restaurants = data.map((json) => Restaurant.fromJson(json)).toList();
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       debugPrint('Error loading restaurants: $e');
       setState(() {
@@ -101,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen>
           extendBodyBehindAppBar: true,
           extendBody: true,
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Stack(
             children: [
               NotificationListener<UserScrollNotification>(
@@ -176,13 +187,15 @@ class _HomeScreenState extends State<HomeScreen>
                         topLeft: Radius.circular(28),
                         bottomLeft: Radius.circular(28),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
+                      boxShadow: Theme.of(context).brightness == Brightness.dark
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
                     ),
                     alignment: Alignment.center,
                     child: SingleChildScrollView(
@@ -247,15 +260,17 @@ class _HomeScreenState extends State<HomeScreen>
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _showRemoveCart ? Colors.red.shade50 : Colors.white,
+                        color: _showRemoveCart ? Colors.red.shade50 : AppColors.card(context),
                         borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.12),
-                            blurRadius: 16,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
+                        boxShadow: Theme.of(context).brightness == Brightness.dark
+                            ? null
+                            : [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.12),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
                       ),
                       child: IntrinsicHeight(
                         child: Row(
@@ -265,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen>
                               child: Container(
                                 padding: const EdgeInsets.only(left: 10, right: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.card(context),
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Row(
@@ -315,7 +330,6 @@ class _HomeScreenState extends State<HomeScreen>
                                               Text(
                                                 cartManager.currentRestaurant!.name,
                                                 style: const TextStyle(
-                                                  color: Colors.black87,
                                                   fontWeight: FontWeight.w800,
                                                   fontSize: 14,
                                                 ),
@@ -327,7 +341,6 @@ class _HomeScreenState extends State<HomeScreen>
                                                   Text(
                                                     'View Menu',
                                                     style: TextStyle(
-                                                      color: Colors.black87,
                                                       fontSize: 11,
                                                       fontWeight: FontWeight.w500,
                                                     ),
@@ -335,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                   SizedBox(width: 2),
                                                   Icon(
                                                     Icons.arrow_right,
-                                                    color: Color(0xFF1F803A),
+                                                    color: AppColors.primary,
                                                     size: 14,
                                                   ),
                                                 ],
@@ -346,40 +359,28 @@ class _HomeScreenState extends State<HomeScreen>
                                       ),
                                     ),
                                     Center(
-                                      child: Container(
-                                        margin: const EdgeInsets.only(right: 8),
+                                      child: PrimaryButton(
+                                        label: 'View Cart',
+                                        subtitle: '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''}',
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => CheckoutScreen(
+                                                restaurant: cartManager.currentRestaurant!,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        width: null, // Content fit
+                                        borderRadius: 100,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16,
                                           vertical: 6,
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF1F803A),
-                                          borderRadius: BorderRadius.circular(100),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            const Text(
-                                              'View Cart',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${cartManager.totalItems} item${cartManager.totalItems > 1 ? 's' : ''}',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 11,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                       ),
                                     ),
+                                    const SizedBox(width: 8),
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
@@ -427,7 +428,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         child: const Text(
                                           'Remove',
                                           style: TextStyle(
-                                            color: Color(0xFF1F803A),
+                                            color: AppColors.primary,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 13,
                                           ),
@@ -507,7 +508,6 @@ class _HomeScreenState extends State<HomeScreen>
               children: [
                 SizedBox(height: AppSpacing.sm), // Added top margin
                 CategoryList(),
-                // SizedBox(height: AppSpacing.xs), // Reduced bottom margin
               ],
             ),
           ),
@@ -517,9 +517,11 @@ class _HomeScreenState extends State<HomeScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal:
-                      Responsive.getResponsivePadding(context).horizontal / 2,
+                padding: EdgeInsets.only(
+                  top: 16,
+                  left: Responsive.getResponsivePadding(context).horizontal / 2,
+                  right: Responsive.getResponsivePadding(context).horizontal / 2,
+                  bottom: 8,
                 ),
                 child: FilterBar(
                   currentFilters: _filterOptions,
@@ -716,10 +718,11 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
     final double maxShrink = promoHeight;
     final double fadeOutProgress = (shrinkOffset / maxShrink).clamp(0.0, 1.0);
 
-    // Background changes from transparent to white as it shrinks
+    // Background changes from transparent to scaffold color as it shrinks
+    final Color scaffoldColor = Theme.of(context).scaffoldBackgroundColor;
     final Color bgColor = Color.lerp(
       Colors.transparent,
-      Colors.white,
+      scaffoldColor,
       fadeOutProgress,
     )!;
 
@@ -773,7 +776,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
                 right: 0,
                 height: bottomHeight,
                 child: Container(
-                  color: Colors.white,
+                  color: scaffoldColor,
                   child: categoriesAndFilters,
                 ),
               ),

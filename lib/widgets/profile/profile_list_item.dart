@@ -5,7 +5,7 @@ class ProfileListItem extends StatelessWidget {
   final String title;
   final Widget? trailing;
   final bool showDivider;
-  final Color iconColor;
+  final Color? iconColor;
   final VoidCallback? onTap;
 
   const ProfileListItem({
@@ -14,7 +14,7 @@ class ProfileListItem extends StatelessWidget {
     required this.title,
     this.trailing,
     this.showDivider = true,
-    this.iconColor = Colors.black54,
+    this.iconColor,
     this.onTap,
   });
 
@@ -31,15 +31,15 @@ class ProfileListItem extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(icon, color: iconColor, size: 24),
+                Icon(icon, color: iconColor ?? Theme.of(context).iconTheme.color?.withOpacity(0.6) ?? Colors.black54, size: 24),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF2E3333),
+                      color: Theme.of(context).textTheme.bodyLarge?.color ?? const Color(0xFF2E3333),
                     ),
                   ),
                 ),
@@ -53,7 +53,7 @@ class ProfileListItem extends StatelessWidget {
           if (showDivider)
             Padding(
               padding: const EdgeInsets.only(left: 56.0, right: 16),
-              child: Divider(height: 1, color: Colors.grey.shade200),
+              child: Divider(height: 1, color: Theme.of(context).dividerColor.withOpacity(0.1)),
             ),
         ],
       ),

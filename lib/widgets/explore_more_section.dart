@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import '../utils/app_constants.dart';
 
 class ExploreMoreSection extends StatelessWidget {
   const ExploreMoreSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     final List<Map<String, dynamic>> items = [
       {'title': 'Offers', 'icon': '🏷️'},
       {'title': 'Crowd\nfavourites', 'icon': '🍔'},
@@ -19,21 +22,21 @@ class ExploreMoreSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             'EXPLORE MORE',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Colors.grey,
+              color: Colors.grey.shade600,
               letterSpacing: 1.2,
             ),
           ),
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 102, // 90 height + 12 bottom margin for shadow
+          height: 102,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
@@ -43,21 +46,14 @@ class ExploreMoreSection extends StatelessWidget {
               final item = items[index];
               return Container(
                 width: 90,
-                margin: const EdgeInsets.only(
-                  bottom: 12,
-                ), // pushes bottom shadow to show properly
+                margin: const EdgeInsets.only(bottom: 12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.card(context),
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                   border: Border.all(
-                    color: Colors.grey.withOpacity(0.08),
+                    color: isDark
+                        ? Colors.white.withOpacity(0.08)
+                        : Colors.grey.withOpacity(0.08),
                     width: 1,
                   ),
                 ),
@@ -85,7 +81,6 @@ class ExploreMoreSection extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
                               height: 1.1,
                             ),
                             maxLines: 2,
@@ -101,9 +96,7 @@ class ExploreMoreSection extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(
-          height: 0,
-        ), // Added spacing to push down the next section
+        const SizedBox(height: 0),
       ],
     );
   }

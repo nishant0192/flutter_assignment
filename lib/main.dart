@@ -13,9 +13,9 @@ import 'models/bookmark_manager.dart';
 import 'package:provider/provider.dart';
 
 // Please set your AppID and AppSign here
-const int zegoAppID = 139912920;
+const int zegoAppID = ***REMOVED***;
 const String zegoAppSign =
-    "e9cf75cd6a6f026c3d360c122ac02d5749cb75929b5d160aad61813d445c1cc6";
+    "***REMOVED***";
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
